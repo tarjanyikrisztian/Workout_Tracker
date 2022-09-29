@@ -4,34 +4,24 @@ import '../css/LoginReg.css'
 
 export const Login = () => {
     return (
-        <div className="container">
-            <div className="title">
-                <h1>Login</h1>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. <a href='#' className='signUp'>Quisquam, quod.</a>
-                </p>
-            </div>
-            <div className="content">
+        <div class="container">
+            <div class="content">
+                    <h2>Log In</h2>
                 <form action="">
-                    <span className='spanInput'>
-                        <i className="fas fa-email"></i>
-                        <input type="email" id='email' placeholder='Email' />
+                    <span class="input-item">
+                        <i class="fa-solid fa-envelope"></i>
+                        <input class="form-input" id="email" type="email" placeholder="Email" required />
                     </span>
-                    <span className='spanInput'>
-                        <i className="fas fa-lock"></i>
-                        <input type="password" id='password' placeholder='Password' />
+                    <span class="input-item">
+                        <i class="fa fa-key"></i>
+                        <input class="form-input" type="password" placeholder="Password" id="password" name="password" required />
+                        <i class="fa fa-eye" aria-hidden="true" type="button" id="eye"></i>
+                        
                     </span>
-                    <button className='btn'>Login</button>
+                    <a href="#" className='forgotPassword'>Forgot Password</a>
+                    <button class="btn">Log In</button>
                 </form>
-                <div className="or">
-                    <span>or</span>
-                </div>
-                <div className="google">
-                    <button className='btn googleBtn'>
-                        <i className="fab fa-google"></i>
-                        Google
-                    </button>
-                </div>
+                
             </div>
         </div>
     )
