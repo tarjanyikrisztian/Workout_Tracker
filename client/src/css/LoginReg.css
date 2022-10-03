@@ -10,6 +10,8 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+    transition: all 0.25s ease-in-out;
+    box-shadow: 1rem 1rem 0 0 rgba(0, 0, 0, 0.2);
 }
 
 .sign{
@@ -22,19 +24,6 @@
 
 .forgot{
     height: 17rem;
-}
-
-.containerBorder{
-    width: 25rem;
-    background-color: rgb(0, 0, 0);
-    position: absolute;
-    translate: -1rem -1rem;
-    z-index: 9;
-    border-radius: 1rem;
-    transition: all 0.25s;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
 }
 
 .content{
@@ -136,7 +125,7 @@
 
 .btn:hover{
     background-color: var(--teal-700);
-    box-shadow: 0 0 0 0;
+    box-shadow: inset 3px 5px 0px 0px rgba(0, 0, 0, 0.15);
     transition: all 0.25s ease-in-out;
 }
 
