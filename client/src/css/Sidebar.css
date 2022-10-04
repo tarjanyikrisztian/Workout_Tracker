@@ -14,7 +14,7 @@
 }
 
 .extended {
-    width: 20rem;
+    width: 15rem;
     transition: all 0.5s ease;
 }
 
@@ -33,12 +33,13 @@
     padding: 0;
     color: var(--teal-500);
     font-size: 175%;
-    transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease;
+    padding: 1.5rem
 
 }
 
 .extended_icon {
-    width: 18rem;
+    width: 14rem;
     transition: all 0.5s ease;
     border-radius: 10rem;
     padding: 1.5rem;
@@ -96,9 +97,13 @@
 }
 
 .iconInfo {
-    padding-left: 1rem;
+    font-family: 'Abel', sans-serif;
+    float: right;
+    width: 100%;
+    text-align: right;
     z-index: 5;
     color: var(--teal-300);
     transition: all 0.25s;
     opacity: 0;
+    font-weight: 100;
 }

@@ -1,151 +1,146 @@
-
-.container{
-    position: absolute;
-    background-color: white;
-    justify-content: center;
-    align-items: center;
-    width: 25rem;
-    border-radius: 1rem;
-    z-index: 10;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    transition: all 0.25s ease-in-out;
-    box-shadow: 1rem 1rem 0 0 rgba(0, 0, 0, 0.2);
+.container {
+  position: absolute;
+  background-color: white;
+  justify-content: center;
+  align-items: center;
+  width: 25rem;
+  border-radius: 1rem;
+  z-index: 3;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.25s ease-in-out;
+  box-shadow: 1rem 1rem 0 0 rgba(0, 0, 0, 0.2);
 }
 
-.sign{
-    height: 38rem;
+.none {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 100%;
+  overflow: hidden;
+  position: absolute;
+  background-color: white;
+  top: 100%;
+  left: 100%;
+  z-index: 3;
+  transform: translate(-100%, -100%);
+  transition: all 0.25s ease-in-out;
 }
 
-.login{
-    height: 30rem;
+.content {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0 2rem;
 }
 
-.forgot{
-    height: 17rem;
+.title {
+  font-size: 2rem;
+  padding-bottom: 0.5rem;
 }
 
-.content{
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding:0 2rem;
+.activeTitle {
+  font-weight: 700;
+  color: black;
 }
 
-.title{
-    font-size: 2rem;
-    padding-bottom: 0.5rem;
+.notActiveTitle {
+  padding-left: 1.5rem;
+  color: var(--teal-500);
+  font-weight: 100;
 }
 
-.activeTitle{
-    font-weight: 700;
-    color: black;
+.notActiveTitle:hover {
+  color: var(--teal-700);
+  cursor: pointer;
 }
-
-.notActiveTitle{
-    padding-left: 1.5rem;
-    color: var(--teal-500);
-    font-weight: 100;
-}
-
-.notActiveTitle:hover{
-    color: var(--teal-700);
-    cursor: pointer;
-}
-
 
 .fa-x {
-    float: right;
-    padding-right: 1rem;
-    padding-top: 1rem;
-    color: gray;
-    cursor: pointer;
+  float: right;
+  padding-right: 1rem;
+  padding-top: 1rem;
+  color: gray;
+  cursor: pointer;
 }
-.fa-x:hover{
-    color: black;
-}
-
-.input-item{
-    display: flex;
-    width: 100%;
-    padding: 0.5rem 1rem;
-    margin-top: 1.5rem;
-    margin-bottom: 1rem;
-    background-color: rgb(228, 228, 228);
-    border-radius: 0.75rem;
-    align-items: center;
-    box-shadow: inset 2px 4px 0 0 rgba(0, 0, 0, 0.05); 
+.fa-x:hover {
+  color: black;
 }
 
-.input-item:focus-within{
-    box-shadow: 0 0 0 0;
-    outline: 2px solid var(--teal-500);
-    transition: all 0.25s ease-in-out;
+.input-item {
+  display: flex;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  background-color: rgb(228, 228, 228);
+  border-radius: 0.75rem;
+  align-items: center;
+  box-shadow: inset 2px 4px 0 0 rgba(0, 0, 0, 0.05);
 }
 
-.form-input{
-    background-color: transparent;
-    padding: 0.5rem;
-    border: none;
-    outline: none;
-    font-size: 1rem;
-    width: 100%;
+.form-input {
+  background-color: transparent;
+  padding: 0.5rem;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  width: 100%;
 }
 
-.form-input:focus{
-    padding-left: 0;
-    transition: all 0.25s ease-in-out;
+.form-input:focus {
+  padding-left: 0;
+  transition: all 0.25s ease-in-out;
 }
 
-
-.fa-eye, .fa-eye-slash{
-    color: black;
-    cursor: pointer;
+.fa-eye,
+.fa-eye-slash {
+  color: black;
+  cursor: pointer;
 }
 
-.fa-key, .fa-envelope, .fa-user{
-    color: black;
-    padding-right: 0.5rem;
+.fa-key,
+.fa-envelope,
+.fa-user {
+  color: black;
+  padding-right: 0.5rem;
 }
 
-.btn{
-    width: 100%;
-    padding: 1rem 1rem;
-    background-color: var(--teal-500);
-    color: white;
-    border: none;
-    border-radius: 1rem;
-    font-size: 1rem;
-    cursor: pointer;
-    align-items: center;
-    margin: 1rem 0;
-    box-shadow: 3px 5px 0px 0px rgba(0, 0, 0, 0.15);
+.btn {
+  width: 100%;
+  padding: 1rem 1rem;
+  background-color: var(--teal-500);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  align-items: center;
+  margin: 1rem 0;
+  box-shadow: 3px 5px 0px 0px rgba(0, 0, 0, 0.15);
 }
 
-.btn:hover{
-    background-color: var(--teal-700);
-    box-shadow: inset 3px 5px 0px 0px rgba(0, 0, 0, 0.15);
-    transition: all 0.25s ease-in-out;
+.btn:hover {
+  background-color: var(--teal-700);
+  box-shadow: inset 3px 5px 0px 0px rgba(0, 0, 0, 0.15);
+  transition: all 0.25s ease-in-out;
 }
 
-.forgotPassword{
-    float: right;
-    cursor: pointer;
-    text-decoration: none;
-    color: var(--teal-500);
+.forgotPassword {
+  float: right;
+  cursor: pointer;
+  text-decoration: none;
+  color: var(--teal-500);
 }
 
-.forgotPassword:hover{
-    color: var(--teal-700);
+.forgotPassword:hover {
+  color: var(--teal-700);
 }
 
-
-.fa-google{
-    color: white;
-    padding-right: 0.5rem;
+.fa-google {
+  color: white;
+  padding-right: 0.5rem;
 }
 
-.or{
-    text-align: center;
+.or {
+  text-align: center;
 }

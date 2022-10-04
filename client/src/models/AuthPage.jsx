@@ -4,8 +4,8 @@ import '../css/LoginReg.css'
 
 
 
-export const AuthPage = () => {
-    const [currentPage, setCurrentPage] = useState("login");
+export const AuthPage = ({ openLogin }) => {
+    const [currentPage, setCurrentPage] = useState("none");
 
     function passwordShowHide() {
         let pwd = document.querySelectorAll("#password");
@@ -33,8 +33,8 @@ export const AuthPage = () => {
 
     function close() {
         let cont = document.querySelector(`.${currentPage}`);
-        cont.style.width = "4rem";
-        cont.style.height = "4rem";
+        cont.style.width = "3rem";
+        cont.style.height = "3rem";
         cont.style.borderRadius = "100%";
         cont.style.overflow = "hidden";
         cont.style.top = "100%";
@@ -45,6 +45,23 @@ export const AuthPage = () => {
             setCurrentPage("none");
         }, 255);
     }
+
+    useEffect(() => {
+        if (openLogin && currentPage === "none") {
+            let cont = document.querySelector(`.${currentPage}`);
+            cont.style.width = "25rem";
+            cont.style.height = "30rem";
+            cont.style.borderRadius = "1rem";
+            cont.style.overflow = "auto";
+            cont.style.top = "50%";
+            cont.style.left = "50%";
+            cont.style.zIndex = "3";
+            cont.style.transform = "translate(-50%, -50%)";
+            setTimeout(() => {
+                setCurrentPage("login");
+            }, 255);
+        }
+    }, [openLogin]);
 
     function changeToSign() {
         let cont = document.querySelectorAll(`.${currentPage}`);
@@ -59,7 +76,7 @@ export const AuthPage = () => {
     function changeToLogin() {
         let cont = document.querySelectorAll(`.${currentPage}`);
         cont.forEach((item) => {
-            item.style.height = "30rem";
+            item.style.height = "29rem";
         });
         setCurrentPage("login");
     }
@@ -67,7 +84,7 @@ export const AuthPage = () => {
     function changeToForgot() {
         let cont = document.querySelectorAll(`.${currentPage}`);
         cont.forEach((item) => {
-            item.style.height = "17rem";
+            item.style.height = "18rem";
         });
         setCurrentPage("forgot");
     }
@@ -163,6 +180,7 @@ export const AuthPage = () => {
                                 <i className="fa-solid fa-envelope"></i>
                                 <input className="form-input" id="email" type="email" placeholder="Email" required />
                             </span>
+                            <a className='forgotPassword' onClick={() => changeToLogin()}>Back to log in</a>
                             <button className="btn" type="submit">Send</button>
                         </form>
                     </div>
@@ -173,7 +191,9 @@ export const AuthPage = () => {
     //nothing
     else if (currentPage === "none") {
         return (
-            <></>
+            <>
+                <div className="none"></div>
+            </>
         )
     }
 }
