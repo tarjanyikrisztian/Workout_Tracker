@@ -95,7 +95,7 @@ export const Sidebar = ({ }) => {
                     <>
                         <div className="sidebar__item">
                             <Link to="/" className="icon fa-solid fa-user">
-                                <span className='iconInfo'>Profile</span>
+                                <span className='iconInfo'>{user.username}</span>
                             </Link>
                         </div>
                         <div className="sidebar__item">
