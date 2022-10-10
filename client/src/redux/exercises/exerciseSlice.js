@@ -68,7 +68,7 @@ export const exerciseSlice = createSlice({
             .addCase(getExercises.fulfilled, (state, action) => {
                 state.isLoading = false;
                 state.isSuccess = true;
-                state.exercises= action.payload;
+                state.exercises = action.payload;
             })
             .addCase(getExercises.rejected, (state, action) => {
                 state.isLoading = false;

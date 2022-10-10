@@ -22,7 +22,12 @@ const userSchema = new mongoose.Schema({
     excercises: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Exercise'
-    }]
+    }],
+    verified: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
 }, {
     timestamps: true
 }); 

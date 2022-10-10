@@ -13,7 +13,7 @@ export const CreateExercise = ({ open }) => {
 
     const { user } = useSelector((state) => state.auth);
 
-    const { isError, isSuccess, message } = useSelector((state) => state.exercises);
+    const { isSuccess, isError, isLoading } = useSelector((state) => state.exercises);
 
     const [newExerciseMuscleGroups, setNewExerciseMuscleGroups] = useState([]);
     const [isPublic, setIsPublic] = useState(false);
@@ -43,9 +43,6 @@ export const CreateExercise = ({ open }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-        if (user !== null) {
-            const user = user._id;
-        }
         const bodypart = newExerciseMuscleGroups;
         const ispublic = isPublic;
         const newExercise = {
@@ -67,6 +64,7 @@ export const CreateExercise = ({ open }) => {
     const [openCreateExercise, setOpenCreateExercise] = useState(false);
 
     useEffect(() => {
+
         if (open) {
             setOpenCreateExercise(true);
             setTimeout(() => {
@@ -74,16 +72,11 @@ export const CreateExercise = ({ open }) => {
                 container.style.transform = 'translate(-50%, -50%)';
             }, 100);
         }
-        if (isError) {
-            toast.error(message);
-        }
-        if (isSuccess) {
-        }
 
         return () => {
             dispatch(reset());
         }
-    }, [open, isError, isSuccess, message, dispatch]);
+    }, [open, dispatch, isError, isSuccess, isLoading]);
 
     const close = () => {
         const container = document.querySelector('.containerCreateExercise');

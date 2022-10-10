@@ -9,13 +9,18 @@ const createExercise = async (exerciseData, token) => {
             'Authorization': `Bearer ${token}`
         }
     }
-    const response = await axios.post(API_URL, exerciseData, config)
+    const response = await axios.post(API_URL, exerciseData, config);
+
     return response.data;
 };
 
 const getExercises = async () => {
     const response = await axios.get(API_URL)
-  
+    
+    if(response.data) {
+        localStorage.removeItem('exercises');
+    }
+
     return response.data
   }
 

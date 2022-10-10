@@ -32,7 +32,7 @@ export const logout = createAsyncThunk(
 
 export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
     try {
-        return await authService.login(user)
+            return await authService.login(user);
     } catch (error) {
         const message = (error.response && error.response.data && error.response.data.message) ||error.message || error.toString();
         return thunkAPI.rejectWithValue(message)
@@ -55,7 +55,6 @@ export const authSlice = createSlice({
         builder
             .addCase(register.pending, (state) => {
                 state.isLoading = true;
-
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false;

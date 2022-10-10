@@ -47,15 +47,14 @@ export const AuthPage = ({ openLogin }) => {
         cont.style.zIndex = "3";
         cont.style.transform = "translate(-100%, -100%)";
         setTimeout(() => {
-            cont.style.display = "none";
             setCurrentPage("none");
-
+            cont.style.display = "none";
         }, 255);
     }
 
     useEffect(() => {
-        if (openLogin && currentPage === "none") {
-            let cont = document.querySelector(`.${currentPage}`);
+        if (openLogin) {
+            let cont = document.querySelector(`.none`);
             cont.style.display = "block";
             cont.style.overflow = "hidden";
             setTimeout(() => {
@@ -81,7 +80,7 @@ export const AuthPage = ({ openLogin }) => {
 
     function changeToSign() {
         let cont = document.querySelector(`.${currentPage}`);
-        cont.style.height = "37rem";
+        cont.style.height = "38rem";
         if (window.innerWidth < 768 || window.innerHeight < 768) {
             cont.style.width = "100%";
             cont.style.height = "100%";
@@ -207,6 +206,15 @@ export const AuthPage = ({ openLogin }) => {
         dispatch(login(userData))
     }
 
+    function onSignIn(googleUser) {
+        var profile = googleUser.getBasicProfile();
+        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('Name: ' + profile.getName());
+        console.log('Image URL: ' + profile.getImageUrl());
+        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+      }
+      
+
 
 
     //Register
@@ -243,11 +251,12 @@ export const AuthPage = ({ openLogin }) => {
                             <div className="or">
                                 or
                             </div>
-                            <button className="btn googleBtn">
+                            </form>
+                            <button className="btn googleBtn g-signin2" data-onsuccess="onSignIn">
                                 <i className="fa fa-google"></i>
                                 Google
                             </button>
-                        </form>
+                        
                     </div>
 
                 </div>
@@ -279,11 +288,12 @@ export const AuthPage = ({ openLogin }) => {
                             <div className="or">
                                 or
                             </div>
-                            <button className="btn googleBtn">
+                            </form>
+                            <button className="btn googleBtn g-signin2" data-onsuccess="onSignIn">
                                 <i className="fa fa-google"></i>
                                 Google
                             </button>
-                        </form>
+                        
                     </div>
                 </div>
             </>
