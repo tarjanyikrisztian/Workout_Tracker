@@ -5,10 +5,8 @@ const API_URL = 'http://127.0.0.1:5000/user/';
 const register = async (userDataReg) => {
     const response = await axios.post(API_URL + 'register', userDataReg);
 
-    if (response.data) {
-        localStorage.setItem('user', JSON.stringify(response.data));
-    }
-
+    console.log(response.data);
+    localStorage.removeItem('user');
     return response.data;
 };
 
@@ -18,7 +16,6 @@ const logout = () => {
 
 const login = async (userData) => {
     const response = await axios.post(API_URL + 'login', userData)
-    console.log(response.data)
     if (response.data) {
         localStorage.setItem('user', JSON.stringify(response.data))
     }

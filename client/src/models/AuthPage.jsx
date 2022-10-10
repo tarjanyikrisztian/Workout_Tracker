@@ -143,10 +143,10 @@ export const AuthPage = ({ openLogin }) => {
         }
         if (isSuccess) {
             if (currentPage === "login") {
-                toast.success("Welcome back! 💪");
+                toast.success("Welcome! 💪");
             }
             else if (currentPage === "sign") {
-                toast.success("Registered successfully! 🎉");
+                toast.success("Your account has been created, please verify your email! 🎉");
             }
             else if (currentPage === "forgot") {
                 toast.success("Password reset link sent! 📧");

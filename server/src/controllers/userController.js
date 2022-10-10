@@ -7,17 +7,17 @@ const User = require('../models/userModel');
 const registerUser = asyncHandler(async (req, res) => {
     const { username, email, password } = req.body;
     if (!username || !email || !password) {
-        res.status(400).json({ message: 'Please fill in all fields' });
+        res.status(400).json({ message: 'Please fill in all fields 🤔' });
         throw new Error('Please fill all fields');
     }
     const userEmailExists = await User.findOne({ email });
     if (userEmailExists) {
-        res.status(400).json({ message: 'Email already exists' });
+        res.status(400).json({ message: 'Email already exists 😫' });
         throw new Error('Email already exists');
     }
     const userUsernameExists = await User.findOne({ username });
     if (userUsernameExists) {
-        res.status(400).json({ message: 'Username already exists' });
+        res.status(400).json({ message: 'Username already exists 😣' });
         throw new Error('Username already exists');
     }
     const salt = await bcrypt.genSalt(10);
@@ -30,14 +30,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            _id: user._id,
-            username: user.username,
-            email: user.email,
-            token: generateToken(user._id, '1h'),
-            verified: user.verified
+            id: user._id,
+            token: generateToken(user._id, '1d'),
         });
     } else {
-        res.status(400).json({ message: 'Invalid user data' });
+        res.status(400).json({ message: 'Invalid user data 😢' });
         throw new Error('Invalid user data');
     }
 
@@ -52,18 +49,19 @@ const loginUser = asyncHandler(async (req, res) => {
                 _id: user._id,
                 username: user.username,
                 email: user.email,
-                token: generateToken(user._id, '1h'),
-                verified: user.verified
+                token: generateToken(user._id, '1d'),
+                verified: user.verified,
+                message: 'Welcome back! 💪'
             });
         } else {
             res.status(401).json({
-                message: 'Please verify your email'
+                message: 'Please verify your email! 📧'
             });
             throw new Error('User not verified, please check your email');
         }
     } else {
         res.status(401).json({
-            message: 'Invalid email or password'
+            message: 'Invalid email or password 🤔'
         });
         throw new Error('Invalid email or password');
     }
@@ -89,19 +87,19 @@ const verifyUser = asyncHandler(async (req, res) => {
                     });
             } else {
                 res.status(400).json({
-                    message: 'User already verified'
+                    message: 'User already verified 🤔'
                 });
                 throw new Error('User already verified');
             }
         } else {
             res.status(404).json({
-                message: 'User not found'
+                message: 'User not found 😢'
             });
             throw new Error('User not found');
         }
     } else {
         res.status(401).json({
-            message: 'Invalid token'
+            message: 'Invalid token 😢'
         });
         throw new Error('Invalid token');
     }
