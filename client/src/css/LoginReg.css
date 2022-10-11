@@ -153,6 +153,72 @@
   text-align: center;
 }
 
+.password-requirments {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  background-color: white;
+  padding: 0 2rem;
+  font-size: 0.95rem;
+  border-radius: 1rem;
+  z-index: 2;
+  top:50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  transition: all 0.25s ease-in-out;
+  margin-left: 18rem;
+  box-shadow: 0.25rem 0.25rem 0 0 rgba(0, 0, 0, 0.2);
+  animation: slideIn 0.25s ease-in-out;
+}
+
+@keyframes slideIn {
+  0% {
+    margin-left: 0rem;;
+  }
+  100% {
+    margin-left: 18rem;
+  }
+}
+
+.password-requirments ul {
+  padding-bottom: 0.5rem;
+}
+
+.password-requirments p {
+  color: black;
+  padding-top: 0.35rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.pwdNotContains {
+  color: red;
+  transition: all 0.25s ease-in-out;
+
+}
+
+.pwdContains {
+  color: green;
+  transition: all 0.25s ease-in-out;
+}
+
+.passwordStrength0{
+  border: 2px solid #ff0000;
+  transition: all 0.25s ease-in-out;
+}
+.passwordStrength1{
+  border: 2px solid #ffaa00;
+  transition: all 0.25s ease-in-out;
+}
+.passwordStrength2{
+  border: 2px solid #aaff00;
+  transition: all 0.25s ease-in-out;
+}
+.passwordStrength3{
+  border: 2px solid #00ff00;
+  transition: all 0.25s ease-in-out;
+}
+
 
 
 

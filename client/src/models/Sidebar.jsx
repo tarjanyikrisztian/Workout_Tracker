@@ -87,14 +87,19 @@ export const Sidebar = ({ }) => {
         }
     }, [extended]);
 
+    let userIcon = "icon fa-solid fa-user-circle";
+   if(user) {
+    userIcon = `icon fa-solid fa-${user.username[0]}`;
+   }
     return (
         <>
             <div className="sidebar">
                 <i className="extend fa-solid fa-angle-double-left" onClick={() => setExtended(!extended)}></i>
                 {user ? (
+                     
                     <>
                         <div className="sidebar__item">
-                            <Link to="/" className="icon fa-solid fa-user">
+                            <Link to="/" className={userIcon}>
                                 <span className='iconInfo'>{user.username}</span>
                             </Link>
                         </div>

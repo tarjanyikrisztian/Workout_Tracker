@@ -157,18 +157,100 @@ export const AuthPage = ({ openLogin }) => {
         dispatch(reset());
     }, [user, isSuccess, isError, message, navigate, dispatch]);
 
+    const [goodPassword, setGoodPassword] = useState([false, false, false, false]);
+
+    const testPassword = (password) => {
+        const passwordRequirements = document.querySelectorAll(".pwdReq");
+        if (password.length >= 8) {
+            passwordRequirements[0].classList.remove("pwdNotContains");
+            passwordRequirements[0].classList.add("pwdContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[0] = true;
+                return goodPassword;
+            });
+        }
+        else {
+            passwordRequirements[0].classList.remove("pwdContains");
+            passwordRequirements[0].classList.add("pwdNotContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[0] = false;
+                return goodPassword;
+            });
+        }
+        if (password.match(/[A-Z]/)) {
+            passwordRequirements[1].classList.remove("pwdNotContains");
+            passwordRequirements[1].classList.add("pwdContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[1] = true;
+                return goodPassword;
+            });
+        }
+        else {
+            passwordRequirements[1].classList.remove("pwdContains");
+            passwordRequirements[1].classList.add("pwdNotContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[1] = false;
+                return goodPassword;
+            });
+        }
+        if (password.match(/[a-z]/)) {
+            passwordRequirements[2].classList.remove("pwdNotContains");
+            passwordRequirements[2].classList.add("pwdContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[2] = true;
+                return goodPassword;
+            });
+        }
+        else {
+            passwordRequirements[2].classList.remove("pwdContains");
+            passwordRequirements[2].classList.add("pwdNotContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[2] = false;
+                return goodPassword;
+            });
+        }
+        if (password.match(/[0-9]/)) {
+            passwordRequirements[3].classList.remove("pwdNotContains");
+            passwordRequirements[3].classList.add("pwdContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[3] = true;
+                return goodPassword;
+            });
+        }
+        else {
+            passwordRequirements[3].classList.remove("pwdContains");
+            passwordRequirements[3].classList.add("pwdNotContains");
+            setGoodPassword((goodPassword) => {
+                goodPassword[3] = false;
+                return goodPassword;
+            });
+        }
+    }
+
+    //function change passwordStrength0 according to the password strength in goodPassword
+    const passwordBorder = () => {
+        console.log(goodPassword[0]+goodPassword[1]+goodPassword[2]+goodPassword[3]);
+    }
+        
+
     const onChangeReg = (e) => {
         setFormDataReg((prevState) => ({
             ...prevState,
             [e.target.name]: e.target.value,
         }))
+        if(e.target.name === "password") {
+            testPassword(e.target.value);
+            passwordBorder();
+        }
     }
 
     const onSubmitReg = (e) => {
         e.preventDefault()
-
-        if (password !== password2) {
-            toast.error('Passwords do not match')
+        if (!testPassword(password)) {
+            toast.error("Password is not strong enough! 🤔");
+        }
+        else if (password !== password2) {
+            toast.error('Passwords do not match 🤔');
         } else {
             const userDataReg = {
                 username,
@@ -212,8 +294,8 @@ export const AuthPage = ({ openLogin }) => {
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
-      }
-      
+    }
+
 
 
 
@@ -237,12 +319,13 @@ export const AuthPage = ({ openLogin }) => {
                                 <i className="fa-solid fa-envelope"></i>
                                 <input className="form-input" id="email" type="email" placeholder="Email" name='email' value={email} onChange={onChangeReg} required />
                             </span>
-                            <span className="input-item">
+                            <span className="input-item passwordStrength0">
                                 <i className="fa-solid fa-key"></i>
                                 <input className="form-input password" type="password" placeholder="Password" id="password" name="password" value={password} onChange={onChangeReg} required />
                                 <i className="fa-solid fa-eye" type="button" id="eye" onClick={() => passwordShowHide()}></i>
+
                             </span>
-                            <span className="input-item">
+                            <span className="input-item passwordStrength0">
                                 <i className="fa-solid fa-key"></i>
                                 <input className="form-input password" type="password" placeholder="Confirm Password" id="password2" name="password2" value={password2} onChange={onChangeReg} required />
                                 <i className="fa-solid fa-eye" type="button" id="eye" onClick={() => passwordShowHide()}></i>
@@ -251,15 +334,23 @@ export const AuthPage = ({ openLogin }) => {
                             <div className="or">
                                 or
                             </div>
-                            </form>
-                            <button className="btn googleBtn g-signin2" data-onsuccess="onSignIn">
-                                <i className="fa fa-google"></i>
-                                Google
-                            </button>
-                        
+                        </form>
+                        <button className="btn googleBtn g-signin2" data-onsuccess="onSignIn">
+                            <i className="fa fa-google"></i>
+                            Google
+                        </button>
+
                     </div>
 
                 </div>
+                <span className="password-requirments">
+                    <p>Password must contain:</p>
+                    <ul>
+                        <li className="pwdReq pwdNotContains">At least 8 characters</li>
+                        <li className="pwdReq pwdNotContains">At least 1 uppercase letter</li>
+                        <li className="pwdReq pwdNotContains">At least 1 lowercase letter</li>
+                        <li className="pwdReq pwdNotContains">At least 1 number</li>                    </ul>
+                </span>
             </>
         )
     }
@@ -288,12 +379,12 @@ export const AuthPage = ({ openLogin }) => {
                             <div className="or">
                                 or
                             </div>
-                            </form>
-                            <button className="btn googleBtn g-signin2" data-onsuccess="onSignIn">
-                                <i className="fa fa-google"></i>
-                                Google
-                            </button>
-                        
+                        </form>
+                        <button className="btn googleBtn g-signin2" data-onsuccess="onSignIn">
+                            <i className="fa fa-google"></i>
+                            Google
+                        </button>
+
                     </div>
                 </div>
             </>

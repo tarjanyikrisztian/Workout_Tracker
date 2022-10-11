@@ -6,7 +6,7 @@ const {protect} = require('../middleware/authMiddleware');
 router.post('/register', registerUser);
 router.post('/login', loginUser);
 router.get('/me', protect, getMe);
-router.post('/:id/verify/:token', verifyUser);
+router.get('/:id/verify/:token', verifyUser);
 
 
 

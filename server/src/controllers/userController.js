@@ -30,8 +30,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
     if (user) {
         res.status(201).json({
-            id: user._id,
-            token: generateToken(user._id, '1d'),
+            message: "localhost:5000/user/" + user._id + "/verify/" + generateToken(user._id, '1d'),
         });
     } else {
         res.status(400).json({ message: 'Invalid user data 😢' });
@@ -51,7 +50,6 @@ const loginUser = asyncHandler(async (req, res) => {
                 email: user.email,
                 token: generateToken(user._id, '1d'),
                 verified: user.verified,
-                message: 'Welcome back! 💪'
             });
         } else {
             res.status(401).json({
