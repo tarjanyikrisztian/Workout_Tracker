@@ -46,6 +46,9 @@ export const AuthPage = ({ openLogin }) => {
         cont.style.left = "100%";
         cont.style.zIndex = "3";
         cont.style.transform = "translate(-100%, -100%)";
+        if(document.querySelector(".password-requirments") !== null){
+            document.querySelector(".password-requirments").style.display = "none";
+        }
         setTimeout(() => {
             setCurrentPage("none");
             cont.style.display = "none";
@@ -102,6 +105,7 @@ export const AuthPage = ({ openLogin }) => {
             cont.style.height = "100%";
             cont.style.overflow = "auto";
         }
+
         setCurrentPage("login");
     }
 
@@ -227,10 +231,7 @@ export const AuthPage = ({ openLogin }) => {
         }
     }
 
-    //function change passwordStrength0 according to the password strength in goodPassword
-    const passwordBorder = () => {
-        console.log(goodPassword[0]+goodPassword[1]+goodPassword[2]+goodPassword[3]);
-    }
+    
         
 
     const onChangeReg = (e) => {
@@ -238,15 +239,15 @@ export const AuthPage = ({ openLogin }) => {
             ...prevState,
             [e.target.name]: e.target.value,
         }))
-        if(e.target.name === "password") {
+
+        if (e.target.name === "password") {
             testPassword(e.target.value);
-            passwordBorder();
         }
     }
 
     const onSubmitReg = (e) => {
         e.preventDefault()
-        if (!testPassword(password)) {
+        if (!(goodPassword[0] && goodPassword[1] && goodPassword[2] && goodPassword[3])) {
             toast.error("Password is not strong enough! 🤔");
         }
         else if (password !== password2) {
@@ -319,13 +320,13 @@ export const AuthPage = ({ openLogin }) => {
                                 <i className="fa-solid fa-envelope"></i>
                                 <input className="form-input" id="email" type="email" placeholder="Email" name='email' value={email} onChange={onChangeReg} required />
                             </span>
-                            <span className="input-item passwordStrength0">
+                            <span className="input-item pwdItem">
                                 <i className="fa-solid fa-key"></i>
                                 <input className="form-input password" type="password" placeholder="Password" id="password" name="password" value={password} onChange={onChangeReg} required />
                                 <i className="fa-solid fa-eye" type="button" id="eye" onClick={() => passwordShowHide()}></i>
 
                             </span>
-                            <span className="input-item passwordStrength0">
+                            <span className="input-item pwdItem2">
                                 <i className="fa-solid fa-key"></i>
                                 <input className="form-input password" type="password" placeholder="Confirm Password" id="password2" name="password2" value={password2} onChange={onChangeReg} required />
                                 <i className="fa-solid fa-eye" type="button" id="eye" onClick={() => passwordShowHide()}></i>

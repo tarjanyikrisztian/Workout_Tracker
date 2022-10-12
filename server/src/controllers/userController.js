@@ -29,9 +29,13 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (user) {
+        const verifyUrl = "localhost:5000/user/" + user._id + "/verify/" + generateToken(user._id, '1d');
         res.status(201).json({
-            message: "localhost:5000/user/" + user._id + "/verify/" + generateToken(user._id, '1d'),
+            message: verifyUrl,
         });
+        // send email to user with verifyUrl
+
+
     } else {
         res.status(400).json({ message: 'Invalid user data 😢' });
         throw new Error('Invalid user data');
@@ -68,38 +72,47 @@ const loginUser = asyncHandler(async (req, res) => {
 const verifyUser = asyncHandler(async (req, res) => {
     const token = req.params.token;
     const id = req.params.id;
-    const decoded = jwt.verify(token, process.env.SECRET);
-    if (decoded.id === id) {
-        const user = await User.findById(id);
-        if (user) {
-            if (!user.verified) {
-                user.verified = true;
-                await user.save();
-                res.status(200)
-                    .json({
-                        _id: user._id,
-                        username: user.username,
-                        email: user.email,
-                        token: generateToken(user._id, '7d'),
-                        verified: user.verified
+    try{
+        const decoded = jwt.verify(token, process.env.SECRET);
+        if (decoded.id === id) {
+            const user = await User.findById(id);
+            if (user) {
+                if (!user.verified) {
+                    user.verified = true;
+                    await user.save();
+                    res.status(200)
+                        .json({
+                            _id: user._id,
+                            username: user.username,
+                            email: user.email,
+                            token: generateToken(user._id, '7d'),
+                            verified: user.verified
+                        });
+                } else {
+                    res.status(400).json({
+                        message: 'User already verified 🤔'
                     });
+                    throw new Error('User already verified');
+                }
             } else {
-                res.status(400).json({
-                    message: 'User already verified 🤔'
+                res.status(404).json({
+                    message: 'User not found 😢'
                 });
-                throw new Error('User already verified');
+                throw new Error('User not found');
             }
         } else {
-            res.status(404).json({
-                message: 'User not found 😢'
+            res.status(401).json({
+                message: 'Invalid token 😢'
             });
-            throw new Error('User not found');
+            throw new Error('Invalid token');
         }
-    } else {
+    } catch (err) {
+        const verifyUrl = "localhost:5000/user/" + id + "/verify/" + generateToken(id, '1d');
         res.status(401).json({
-            message: 'Invalid token 😢'
+            message: 'Token has expired 😢'
         });
-        throw new Error('Invalid token');
+        // send email to user with verifyUrl
+        throw new Error('Token has expired');
     }
 });
 

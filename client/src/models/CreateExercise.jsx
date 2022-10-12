@@ -126,7 +126,7 @@ export const CreateExercise = ({ open }) => {
                         </span>
                         <span className="input-item-check">
                             <input className="form-input-public" id="ispublic" type="checkbox" name='ispublic' onChange={onChangeExc} onClick={() => setIsPublic(!isPublic)} />
-                            <label htmlFor='public'>Is this exercise public?</label>
+                            <label htmlFor='ispublic'>Is this exercise public?</label>
                         </span>
                         <button className="btn" type="submit">
                             Create
