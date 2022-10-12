@@ -72,9 +72,14 @@ export const Exercises = () => {
           </span>
           {user ?
             <div className="createExercise">
-              <button className='btn' onClick={() => openCreateExerciseModal()}>
+              <button className='btn plusMyExcBtn' onClick={() => openCreateExerciseModal()}>
+                <i className="fa-solid fa-database"></i>
+              </button>
+              <button className='btn plusHeartBtn' onClick={() => openCreateExerciseModal()}>
+                <i className="fa-solid fa-heart"></i>
+              </button>
+              <button className='btn plusBtn' onClick={() => openCreateExerciseModal()}>
                 <i className="fa-solid fa-plus"></i>
-                Create exercise
               </button>
             </div>
             : null}

@@ -3,15 +3,13 @@ const Exercise = require('../models/exerciseModel');
 const User = require('../models/userModel');
 
 const getExercises = asyncHandler(async (req, res) => {
-    if (req.user !== undefined || req.user !== null) {
-        const exercisesByUser = await Exercise.find({user: req.user._id});
-        const exercisesPublic = await Exercise.find({ispublic: true});
-        const exercises = [...exercisesByUser, ...exercisesPublic].filter((exercise, index, self) => index === self.findIndex((t) => (t.id === exercise.id)));
-        res.status(200).json(exercises);
-    } else {
         const exercises = await Exercise.find({ispublic: true});
         res.status(200).json(exercises);
-    }
+});
+
+const getExerciseByUser = asyncHandler(async (req, res) => {
+        const exercises = await Exercise.find({user: req.user._id});
+        res.status(200).json(exercises);
 });
 
 const createExercise = asyncHandler(async (req, res) => {
@@ -83,6 +81,7 @@ const deleteExercise = asyncHandler(async (req, res) => {
 
 module.exports = {
     getExercises, 
+    getExerciseByUser,
     createExercise, 
     updateExercise, 
     deleteExercise

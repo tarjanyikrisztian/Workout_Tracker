@@ -89,7 +89,7 @@ export const Sidebar = ({ }) => {
 
     let userIcon = "icon fa-solid fa-user-circle";
    if(user) {
-    userIcon = `icon fa-solid fa-${user.username[0]}`;
+    userIcon = `icon fa-solid fa-${user.username[0].toLowerCase()}`;
    }
     return (
         <>

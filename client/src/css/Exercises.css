@@ -44,10 +44,16 @@
     transition: all 0.25s ease-in-out;
 }
 
-.fa-magnifying-glass,
-.fa-plus {
+.fa-magnifying-glass {
     padding-right: 0.5rem;
     font-size: 1.1rem;
+}
+
+.fa-plus,
+.fa-database,
+.fa-heart{
+    font-size: 1.6rem;
+    font-weight: bold;
 }
 
 .searchBar {
@@ -116,4 +122,76 @@
 }
 
 
+.plusBtn {
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: var(--teal-300);
+    color: var(--gray-900);
+    margin-left: 1rem;
+}
 
+.plusBtn:hover {
+    transform: scale(1.1);
+    color: var(--teal-300);
+    background-color: var(--gray-700);
+    border-radius: 0.75rem;
+    transition: all 0.5s ease-in-out;
+}
+
+.plusHeartBtn {
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: var(--teal-300);
+    color: var(--gray-900);
+    margin-left: 1rem;
+}
+
+.plusHeartBtn:hover{
+    transform: scale(1.1);
+    color: var(--red-500);
+    background-color: var(--gray-700);
+    border-radius: 0.75rem;
+    transition: all 0.5s ease-in-out;
+}
+
+.plusMyExcBtn {
+    display: flex;
+    width: 3rem;
+    height: 3rem;
+    border-radius: 100%;
+    justify-content: center;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    transition: all 0.5s ease-in-out;
+    background-color: var(--teal-300);
+    color: var(--gray-900);
+    margin-left: 1rem;
+}
+
+.plusMyExcBtn:hover{
+    transform: scale(1.1);
+    color: var(--sky-400);
+    background-color: var(--gray-700);
+    border-radius: 0.75rem;
+    transition: all 0.5s ease-in-out;
+}
+
+.createExercise {
+    display: flex;
+    flex-direction: row;
+}

@@ -33,9 +33,9 @@ export const ExerciseModel = ({excName,excDesc,bodyparts}) => {
                         {excDesc}
                     </div>
                     {liked ?
-                        <i className="fa-solid fa-heart liked" onClick={() => setLiked(!liked)}></i>
+                        <i className="fa-solid fa-heart fa-heart1 liked" onClick={() => setLiked(!liked)}></i>
                         :
-                        <i className="fa-solid fa-heart" onClick={() => setLiked(!liked)}></i>
+                        <i className="fa-solid fa-heart fa-heart1" onClick={() => setLiked(!liked)}></i>
                     }
                 </div>
             </div>

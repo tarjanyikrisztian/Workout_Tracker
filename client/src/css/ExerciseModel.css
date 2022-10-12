@@ -84,7 +84,7 @@
     background-color: var(--teal-500);
 }
 
-.fa-heart{
+.fa-heart1{
     text-align: center;
     position: absolute;
     font-size: 1.5rem;
@@ -98,7 +98,7 @@
 }
 
 
-.fa-heart:hover{
+.fa-heart1:hover{
     animation: heartBeat 1.5s infinite;
 }
 
