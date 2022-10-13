@@ -122,7 +122,7 @@ export const CreateExercise = ({ open }) => {
                         </span>
                         <span className="input-item">
                             <i className="fa-solid fa-comment"></i>
-                            <textarea className="form-input" id="description" type="textarea" placeholder="Description" name='description' value={description} onChange={onChangeExc} />
+                            <textarea className="form-input" id="description" type="textarea" rows="4" placeholder="Description" name='description' value={description} onChange={onChangeExc} />
                         </span>
                         <span className="input-item-check">
                             <input className="form-input-public" id="ispublic" type="checkbox" name='ispublic' onChange={onChangeExc} onClick={() => setIsPublic(!isPublic)} />

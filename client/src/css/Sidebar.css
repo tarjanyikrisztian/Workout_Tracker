@@ -136,4 +136,11 @@ only screen and (max-height: 768px) {
         border-top-left-radius: 2rem;
         border-bottom-left-radius: 2rem;
     }
+
+    .fa-angle-double-right{
+        left: 0rem;
+        border-radius: 0;
+        border-top-right-radius: 2rem;
+        border-bottom-right-radius: 2rem;
+    }
 }

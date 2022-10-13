@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { AuthPage } from './AuthPage'
 import '../css/Sidebar.css'
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from 'react-redux';
@@ -14,14 +13,7 @@ export const Sidebar = ({ }) => {
     const { user } = useSelector(state => state.auth);
 
     const [extended, setExtended] = useState(false);
-    const [openLogin, setOpenLogin] = useState(false);
 
-    function openAuth() {
-        setOpenLogin(true);
-        setTimeout(() => {
-            setOpenLogin(false);
-        }, 255);
-    };
 
     function logoutUser() {
         dispatch(logout());
@@ -39,13 +31,6 @@ export const Sidebar = ({ }) => {
             const ext_icon = document.querySelector('.extend');
             ext_icon.classList.remove("fa-angle-double-left");
             ext_icon.classList.add("fa-angle-double-right");
-            if (window.innerWidth < 768 || window.innerHeight < 768) {
-                ext_icon.style.left = "-0.5rem";
-                ext_icon.style.borderTopLeftRadius = "0rem";
-                ext_icon.style.borderBottomLeftRadius = "0";
-                ext_icon.style.borderTopRightRadius = "2rem";
-                ext_icon.style.borderBottomRightRadius = "2rem";
-            }
             const icons = document.querySelectorAll('.icon');
             icons.forEach(icon => {
                 icon.classList.add("extended_icon");
@@ -64,13 +49,6 @@ export const Sidebar = ({ }) => {
             const ext_icon = document.querySelector('.extend');
             ext_icon.classList.remove("fa-angle-double-right");
             ext_icon.classList.add("fa-angle-double-left");
-            if (window.innerWidth < 768 || window.innerHeight < 768) {
-                ext_icon.style.left = "-2rem";
-                ext_icon.style.borderTopLeftRadius = "2rem";
-                ext_icon.style.borderBottomLeftRadius = "2rem";
-                ext_icon.style.borderTopRightRadius = "0";
-                ext_icon.style.borderBottomRightRadius = "0";
-            }
             const icons = document.querySelectorAll('.icon');
             icons.forEach(icon => {
                 icon.classList.remove("extended_icon");
@@ -92,12 +70,9 @@ export const Sidebar = ({ }) => {
     userIcon = `icon fa-solid fa-${user.username[0].toLowerCase()}`;
    }
     return (
-        <>
+        <> 
             <div className="sidebar">
-                <i className="extend fa-solid fa-angle-double-left" onClick={() => setExtended(!extended)}></i>
-                {user ? (
-                     
-                    <>
+                <i className="extend fa-solid fa-angle-double-left" onClick={() => setExtended(!extended)}></i>  
                         <div className="sidebar__item">
                             <Link to="/" className={userIcon}>
                                 <span className='iconInfo'>{user.username}</span>
@@ -118,28 +93,7 @@ export const Sidebar = ({ }) => {
                                 <span className='iconInfo'>Log Out</span>
                             </i>
                         </div>
-                    </>
-                ) : (
-                    <>
-                        <div className="sidebar__item">
-                            <Link to="/" className="icon fa-solid fa-home">
-                                <span className='iconInfo'>Homepage</span>
-                            </Link>
-                        </div>
-                        <div className="sidebar__item">
-                            <Link to="/exercises" className="icon fa-solid fa-dumbbell">
-                                <span className='iconInfo'>Excersises</span>
-                            </Link>
-                        </div>
-                        <div className="sidebar__item icon_last">
-                            <i className='icon singInOut fa-solid fa-right-to-bracket' onClick={() => openAuth()}>
-                                <span className='iconInfo'>Sign In</span>
-                            </i>
-                        </div>
-                    </>
-                )}
             </div>
-            <AuthPage openLogin={openLogin} />
         </>
     )
 }
