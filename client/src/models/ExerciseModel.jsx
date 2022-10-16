@@ -4,10 +4,11 @@ import { useState, useEffect } from 'react';
 
 
 
-export const ExerciseModel = ({excName,excDesc,bodyparts}) => {
+export const ExerciseModel = ({excName,excDesc,bodyparts, id}) => {
 
     const [liked, setLiked] = useState(false);
     const [hasBackground, sethasBackground] = useState(false);
+
 
     const returnParts = [];
     for (let i = 0; i < bodyparts.length; i++) {

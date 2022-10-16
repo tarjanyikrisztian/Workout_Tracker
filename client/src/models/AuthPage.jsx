@@ -6,11 +6,13 @@ import { toast } from 'react-toastify';
 import '../css/LoginReg.css'
 import { Link } from "react-router-dom";
 import { register, reset, login } from '../redux/auth/authSlice';
+import { motion } from 'framer-motion';
+import { Backdrop } from './Backdrop';
 
 
 
-export const AuthPage = ({ openLogin }) => {
-    const [currentPage, setCurrentPage] = useState("none");
+export const AuthPage = ({ handleClose }) => {
+    const [currentPage, setCurrentPage] = useState("login");
 
     function passwordShowHide() {
         let pwd = document.querySelectorAll(".password");
@@ -34,90 +36,6 @@ export const AuthPage = ({ openLogin }) => {
                 item.type = "password";
             });
         }
-    }
-
-    function close() {
-        let cont = document.querySelector(`.${currentPage}`);
-        cont.style.width = "3rem";
-        cont.style.height = "3rem";
-        cont.style.borderRadius = "100%";
-        cont.style.overflow = "hidden";
-        cont.style.top = "100%";
-        cont.style.left = "100%";
-        cont.style.zIndex = "3";
-        cont.style.transform = "translate(-100%, -100%)";
-        if(document.querySelector(".password-requirments") !== null){
-            document.querySelector(".password-requirments").style.display = "none";
-        }
-        setTimeout(() => {
-            setCurrentPage("none");
-            cont.style.display = "none";
-        }, 255);
-    }
-
-    useEffect(() => {
-        if (openLogin) {
-            let cont = document.querySelector(`.none`);
-            cont.style.display = "block";
-            cont.style.overflow = "hidden";
-            setTimeout(() => {
-
-                cont.style.width = "25rem";
-                cont.style.height = "30rem";
-                cont.style.borderRadius = "1rem";
-                if (window.innerWidth < 768 || window.innerHeight < 768) {
-                    cont.style.width = "100%";
-                    cont.style.height = "100%";
-                    cont.style.overflow = "auto";
-                }
-                cont.style.top = "50%";
-                cont.style.left = "50%";
-                cont.style.zIndex = "10";
-                cont.style.transform = "translate(-50%, -50%)";
-                setTimeout(() => {
-                    setCurrentPage("login");
-                }, 255);
-            }, 5);
-        }
-    }, [openLogin]);
-
-    function changeToSign() {
-        let cont = document.querySelector(`.${currentPage}`);
-        cont.style.height = "38rem";
-        if (window.innerWidth < 768 || window.innerHeight < 768) {
-            cont.style.width = "100%";
-            cont.style.height = "100%";
-            cont.style.overflow = "auto";
-            setCurrentPage("sign");
-        }
-        else {
-            setTimeout(() => {
-                setCurrentPage("sign");
-            }, 255);
-        }
-    }
-
-    function changeToLogin() {
-        let cont = document.querySelector(`.${currentPage}`);
-        cont.style.height = "29rem";
-        if (window.innerWidth < 768 || window.innerHeight < 768) {
-            cont.style.width = "100%";
-            cont.style.height = "100%";
-            cont.style.overflow = "auto";
-        }
-
-        setCurrentPage("login");
-    }
-
-    function changeToForgot() {
-        let cont = document.querySelector(`.${currentPage}`);
-        cont.style.height = "18rem";
-        if (window.innerWidth < 768 || window.innerHeight < 768) {
-            cont.style.width = "100%";
-            cont.style.height = "100%";
-            cont.style.overflow = "auto";
-        }
-        setCurrentPage("forgot");
     }
 
 
@@ -151,11 +69,13 @@ export const AuthPage = ({ openLogin }) => {
             }
             else if (currentPage === "sign") {
                 toast.success("Your account has been created, please verify your email! 🎉");
+                setCurrentPage("login");
             }
             else if (currentPage === "forgot") {
                 toast.success("Password reset link sent! 📧");
+                setCurrentPage("login");
             }
-            close();
+
         }
 
         dispatch(reset());
@@ -231,8 +151,8 @@ export const AuthPage = ({ openLogin }) => {
         }
     }
 
-    
-        
+
+
 
     const onChangeReg = (e) => {
         setFormDataReg((prevState) => ({
@@ -261,6 +181,13 @@ export const AuthPage = ({ openLogin }) => {
 
             dispatch(register(userDataReg))
         }
+        setFormDataReg({
+            username: "",
+            email: "",
+            password: "",
+            password2: "",
+        })
+
     }
 
     const [formDataLog, setFormDataLog] = useState({
@@ -287,6 +214,11 @@ export const AuthPage = ({ openLogin }) => {
         }
 
         dispatch(login(userData))
+
+        setFormDataLog({
+            email: '',
+            password: '',
+        })
     }
 
     function onSignIn(googleUser) {
@@ -297,19 +229,77 @@ export const AuthPage = ({ openLogin }) => {
         console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
     }
 
+    const authAppear = {
+        hidden: {
+            left: "100%",
+            top: "0",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "100%",
+        },
+        visible: {
+            left: "50%",
+            top: "50%",
+            width: "25rem",
+            height: "30rem",
+            borderRadius: "1rem",
+            transition: {
+                duration: 0.25,
+            },
+        },
+        exit: {
+            top: "0",
+            left: "100%",
+            width: "3rem",
+            height: "3rem",
+            borderRadius: "100%",
+            transition: {
+                duration: 0.25,
+            },
+        },
+
+        sign: {
+            height: "38rem",
+            transition: {
+                duration: 0.25,
+            },
+        },
+        login: {
+            height: "30rem",
+            transition: {
+                duration: 0.25,
+            },
+        },
+        forgot: {
+            height: "18rem",
+            transition: {
+                duration: 0.25,
+            },
+        },
+    }
+
+    const close = () => {
+        setCurrentPage("login");
+        handleClose();
+    }
 
 
 
     //Register
     if (currentPage === "sign") {
         return (
-            <>
-                <div className="containerAuth sign">
+            <Backdrop onClick={close}>
+                <motion.div className="containerAuth sign"
+                    onClick={(e) => e.stopPropagation()}
+                    variants={authAppear}
+                    animate="sign"
+                    exit="exit"
+                >
 
                     <i className="fa-solid fa-x" onClick={() => close()}></i>
                     <div className="contentAuth">
                         <h2 className='titleAuth'><a className='activeTitleAuth'>Sign Up</a>
-                            <a className='notActiveTitleAuth' onClick={() => changeToLogin()}>Log In</a></h2>
+                            <a className='notActiveTitleAuth' onClick={() => setCurrentPage("login")}>Log In</a></h2>
 
                         <form onSubmit={onSubmitReg}>
                             <span className="input-item">
@@ -343,27 +333,38 @@ export const AuthPage = ({ openLogin }) => {
 
                     </div>
 
-                </div>
-                <span className="password-requirments">
+                </motion.div>
+                <motion.span className="password-requirments"
+                    initial={{ x: "-10%" }}
+                    animate={{ x: "85%" }}
+                    transition={{ duration: 0.25 }}
+                >
                     <p>Password must contain:</p>
                     <ul>
                         <li className="pwdReq pwdNotContains">At least 8 characters</li>
                         <li className="pwdReq pwdNotContains">At least 1 uppercase letter</li>
                         <li className="pwdReq pwdNotContains">At least 1 lowercase letter</li>
-                        <li className="pwdReq pwdNotContains">At least 1 number</li>                    </ul>
-                </span>
-            </>
+                        <li className="pwdReq pwdNotContains">At least 1 number</li>
+                    </ul>
+                </motion.span>
+            </Backdrop>
         )
     }
     //Login
     else if (currentPage === "login") {
         return (
-            <>
-                <div className="containerAuth login">
+            <Backdrop onClick={close}>
+                <motion.div className="containerAuth login"
+                    onClick={(e) => e.stopPropagation()}
+                    variants={authAppear}
+                    initial="hidden"
+                    animate="visible"
+                    exit="exit"
+                >
                     <i className="fa-solid fa-x" onClick={() => close()}></i>
                     <div className="contentAuth">
                         <h2 className='titleAuth'><a className='activeTitleAuth'>Log In</a>
-                            <a className='notActiveTitleAuth' onClick={() => changeToSign()}>Sign Up</a></h2>
+                            <a className='notActiveTitleAuth' onClick={() => setCurrentPage("sign")}>Sign Up</a></h2>
                         <form onSubmit={onSubmitLog}>
                             <span className="input-item">
                                 <i className="fa-solid fa-envelope"></i>
@@ -375,7 +376,7 @@ export const AuthPage = ({ openLogin }) => {
                                 <i className="fa-solid fa-eye" type="button" id="eye" onClick={() => passwordShowHide()}></i>
 
                             </span>
-                            <a className='forgotPassword' onClick={() => changeToForgot()}>Forgot Password</a>
+                            <a className='forgotPassword' onClick={() => setCurrentPage("forgot")}>Forgot Password</a>
                             <button className="btn" type="submit">Log In</button>
                             <div className="or">
                                 or
@@ -387,15 +388,22 @@ export const AuthPage = ({ openLogin }) => {
                         </button>
 
                     </div>
-                </div>
-            </>
+                </motion.div>
+            </Backdrop>
         )
     }
     //forgot password
     else if (currentPage === "forgot") {
         return (
-            <>
-                <div className="containerAuth forgot">
+            <Backdrop onClick={close}
+
+            >
+                <motion.div className="containerAuth forgot"
+                    onClick={(e) => e.stopPropagation()}
+                    variants={authAppear}
+                    animate="forgot"
+                    exit="exit"
+                >
                     <i className="fa-solid fa-x" onClick={() => close()}></i>
                     <div className="contentAuth">
                         <h2 className='titleAuth'><a className='activeTitleAuth'>Forgot Password</a></h2>
@@ -404,20 +412,12 @@ export const AuthPage = ({ openLogin }) => {
                                 <i className="fa-solid fa-envelope"></i>
                                 <input className="form-input" id="email" type="email" placeholder="Email" required />
                             </span>
-                            <a className='forgotPassword' onClick={() => changeToLogin()}>Back to log in</a>
+                            <a className='forgotPassword' onClick={() => setCurrentPage("login")}>Back to log in</a>
                             <button className="btn" type="submit">Send</button>
                         </form>
                     </div>
-                </div>
-            </>
-        )
-    }
-    //nothing
-    else if (currentPage === "none") {
-        return (
-            <>
-                <div className="none"></div>
-            </>
+                </motion.div>
+            </Backdrop>
         )
     }
 }

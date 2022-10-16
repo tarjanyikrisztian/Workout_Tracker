@@ -3,6 +3,7 @@ import { Sidebar } from './models/Sidebar'
 import { useState } from 'react';
 import { Home } from './pages/Home'
 import { Exercises } from './pages/Exercises'
+import { Profile } from './pages/Profile'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useSelector } from 'react-redux';
@@ -23,7 +24,7 @@ function App() {
         <div className="App">
           {user && <Sidebar />}
           <Routes>
-            <Route path="/"  element={<Home />} />
+            <Route path="/"  element={user ? <Profile /> : <Home/>} />
             <Route path="/exercises" element={<Exercises />} />
           </Routes>
         </div>

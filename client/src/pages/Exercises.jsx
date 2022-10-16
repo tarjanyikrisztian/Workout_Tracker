@@ -8,6 +8,7 @@ import { useSelector, useDispatch, shallowEqual } from 'react-redux'
 import { toast } from 'react-toastify';
 import { getExercises, reset } from '../redux/exercises/exerciseSlice';
 import { CreateExercise } from '../models/CreateExercise';
+import {motion, AnimatePresence} from 'framer-motion';
 
 export const Exercises = () => {
   const { user } = useSelector((state) => state.auth);
@@ -36,12 +37,11 @@ export const Exercises = () => {
 
   const [openCreateExercise, setOpenCreateExercise] = useState(false);
 
-  const openCreateExerciseModal = () => {
-    setOpenCreateExercise(true);
-    setTimeout(() => {
-      setOpenCreateExercise(false);
-    }, 1000);
-  }
+  const open = () => {setOpenCreateExercise(true)}
+
+  const close = () => {setOpenCreateExercise(false)}
+
+
 
   return (
     <>
@@ -70,30 +70,36 @@ export const Exercises = () => {
               />
             </form>
           </span>
-          {user ?
+          {user &&
             <div className="createExercise">
-              <button className='btn plusMyExcBtn' onClick={() => openCreateExerciseModal()}>
+              <button className='btn plusMyExcBtn' >
                 <i className="fa-solid fa-database"></i>
               </button>
-              <button className='btn plusHeartBtn' onClick={() => openCreateExerciseModal()}>
+              <button className='btn plusHeartBtn' >
                 <i className="fa-solid fa-heart"></i>
               </button>
-              <button className='btn plusBtn' onClick={() => openCreateExerciseModal()}>
+              <button className='btn plusBtn' onClick={() => (openCreateExercise ? close() : open())}>
                 <i className="fa-solid fa-plus"></i>
               </button>
             </div>
-            : null}
+            }
         </div>
         <div className='exerciseGrid'>
           {exercises.map((exercise, index) => (
             exercise === undefined ?
               null
               :
-              <ExerciseModel key={index} excName={exercise.exercisename} excDesc={exercise.description} bodyparts={exercise.bodypart} />
+              <ExerciseModel key={index} excName={exercise.exercisename} excDesc={exercise.description} bodyparts={exercise.bodypart} id={exercise._id}/>
           ))}
         </div>
       </div>
-      <CreateExercise open={openCreateExercise} />
+      <AnimatePresence
+      initial={false}
+      exitBeforeEnter={true}
+      onExitComplete={() => null}
+      >
+      {openCreateExercise && <CreateExercise handleClose={close} />}
+      </AnimatePresence>
     </>
   )
 }

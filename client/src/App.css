@@ -16,6 +16,5 @@
 body {
     font-family: 'Abel', sans-serif;
     overflow-x: hidden;
-    background-color: rgb(121, 111, 95);
     overflow-y: auto;
 }

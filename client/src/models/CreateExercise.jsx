@@ -6,9 +6,12 @@ import '../css/Exercises.css'
 import Multiselect from 'multiselect-react-dropdown';
 import { muscleGroups } from '../models/Global'
 import { createExercise, reset } from '../redux/exercises/exerciseSlice';
+import { motion } from "framer-motion"
+import { Backdrop } from './Backdrop';
 
 
-export const CreateExercise = ({ open }) => {
+
+export const CreateExercise = ({ handleClose }) => {
     const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.auth);
@@ -56,39 +59,40 @@ export const CreateExercise = ({ open }) => {
             toast.error("Please select at least one muscle group");
         } else {
             dispatch(createExercise(newExercise));
-            close();
+            handleClose();
+        }
+    }
+
+    const slideIn = {
+        hidden: {
+            top:"-100%",
+        },
+        visible: {
+            top: "50%",
+            transition: {
+                duration: 0.2,
+            },
+        },
+        exit: {
+            top:"-100%",
+            transition: {
+                duration: 0.2,
+            },
         }
     }
 
 
-    const [openCreateExercise, setOpenCreateExercise] = useState(false);
 
-    useEffect(() => {
 
-        if (open) {
-            setOpenCreateExercise(true);
-            setTimeout(() => {
-                const container = document.querySelector('.containerCreateExercise');
-                container.style.transform = 'translate(-50%, -50%)';
-            }, 100);
-        }
-
-        return () => {
-            dispatch(reset());
-        }
-    }, [open, dispatch, isError, isSuccess, isLoading]);
-
-    const close = () => {
-        const container = document.querySelector('.containerCreateExercise');
-        container.style.transform = 'translate(-50%, -300%)';
-        setTimeout(() => {
-            setOpenCreateExercise(false);
-        }, 100);
-    }
-
-    if (openCreateExercise && user) {
-        return (
-            <div className="containerCreateExercise">
+    return (
+        <Backdrop onClick={handleClose}>
+            <motion.div className="containerCreateExercise"
+            onClick={(e) => e.stopPropagation()}
+            variants={slideIn}
+            initial="hidden"
+            animate="visible"
+            exit="exit"
+            >
                 <i className="fa-solid fa-x" onClick={() => close()}></i>
                 <div className="contentAuth">
                     <h2 className='titleAuth activeTitleAuth'>Create a new Exercise</h2>
@@ -133,10 +137,7 @@ export const CreateExercise = ({ open }) => {
                         </button>
                     </form>
                 </div>
-            </div>
-        )
-    }
-    else {
-        return null;
-    }
+            </motion.div>
+        </Backdrop>
+    )
 }
