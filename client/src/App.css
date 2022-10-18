@@ -17,4 +17,9 @@ body {
     font-family: 'Abel', sans-serif;
     overflow-x: hidden;
     overflow-y: auto;
+    background-color: var(--gray-700);
+}
+
+a, a:visited {
+    text-decoration: none;
 }

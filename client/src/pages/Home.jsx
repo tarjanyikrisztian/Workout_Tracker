@@ -6,6 +6,7 @@ import '../css/Home.css'
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthPage } from '../models/AuthPage';
+import { Navbar } from '../models/Navbar';
 
 export const Home = () => {
 
@@ -15,52 +16,35 @@ export const Home = () => {
 
   const close = () => { setIsAuthOpen(false) }
 
-  const setParentWidth = (parent) => {
-    if (parent) {
-      parent.style.width = '100%';
+
+  setTimeout(() => {
+    const left = document.getElementById("left");
+
+    const handleMove = e => {
+      left.style.width = `${e.clientX / window.innerWidth * 100}%`;
     }
-  }
+
+    document.onmousemove = e => handleMove(e);
+
+    document.ontouchmove = e => handleMove(e.touches[0]);
+  }, 10);
 
   return (
     <>
       <div className="home">
-        <nav>
-          <h1 className="iconHomeTitle">Workout Tracker</h1>
-          <i onClick={() => (isAuthOpen ? close() : open())}
-            className="fa-solid fa-right-to-bracket iconHomeLogin"></i>
-        </nav>
+        <Navbar />
         <main>
-          <div className='homeHeader'>
-            <h1>Welcome to the workout app</h1>
-            <p>Here you can find and create exercises and create your own workouts and track them.</p>
+          <div className='homeHeader' id='left'>
+            <p className="title">Get better<br />
+              <span className="fancy">results</span></p>
           </div>
-
-          <div className="row">
-            <section className='homeLong1'></section>
-            <section className='homeShort1'>
-            <i className='fa-solid fa-angle-double-left short1open'></i>
-            </section>
-          </div>
-
-          <div className="row">
-            <section className='homeShort2'><i className='fa-solid fa-angle-double-right short2open'></i></section>
-            
-            <section className='homeLong2'></section>
+          <div className='homeHeader' id='right'>
+            <p className="title">Track your<br />
+              <span className="fancy">workouts</span></p>
           </div>
         </main>
-        <footer>
-          <p>Created by:
-            <a href="" target="_blank">Your name</a>
-          </p>
-        </footer>
       </div>
-      <AnimatePresence
-        initial={false}
-        exitBeforeEnter={true}
-        onExitComplete={() => null}
-      >
-        {isAuthOpen && <AuthPage handleClose={close} />}
-      </AnimatePresence>
+      
     </>
   )
 }

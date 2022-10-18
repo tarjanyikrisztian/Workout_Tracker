@@ -9,6 +9,7 @@ import { toast } from 'react-toastify';
 import { getExercises, reset } from '../redux/exercises/exerciseSlice';
 import { CreateExercise } from '../models/CreateExercise';
 import {motion, AnimatePresence} from 'framer-motion';
+import { Navbar } from '../models/Navbar';
 
 export const Exercises = () => {
   const { user } = useSelector((state) => state.auth);
@@ -41,11 +42,22 @@ export const Exercises = () => {
 
   const close = () => {setOpenCreateExercise(false)}
 
-
+  useEffect(() => {
+      const excCont = document.getElementById("excCont");
+    if (!user) {
+      excCont.style.marginTop = '3rem';
+      excCont.style.marginRight = '0';
+    }
+    else {
+      excCont.style.marginTop = '0';
+      excCont.style.marginRight = '3rem';
+    }
+  }, [user])
 
   return (
     <>
-      <div className="exercises">
+    {!user && <Navbar />}
+      <div className="exercises" id='excCont'>
         <div className="exerciseSearch">
           <span className="searchBarWrap">
             <i className="fa-solid fa-magnifying-glass"></i>
