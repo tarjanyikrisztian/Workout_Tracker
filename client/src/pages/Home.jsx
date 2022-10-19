@@ -10,13 +10,6 @@ import { Navbar } from '../models/Navbar';
 
 export const Home = () => {
 
-  const [isAuthOpen, setIsAuthOpen] = useState(false);
-
-  const open = () => { setIsAuthOpen(true) }
-
-  const close = () => { setIsAuthOpen(false) }
-
-
   setTimeout(() => {
     const left = document.getElementById("left");
 

@@ -15,7 +15,7 @@ export const Exercises = () => {
   const { user } = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
-  const { exercises, isSuccess, isError, isLoading } = useSelector((state) => state.exercises, shallowEqual);
+  const { exercises, isSuccess, isError, isLoading } = useSelector((state) => state.exercises);
 
   useEffect(() => {
     if (isError) {

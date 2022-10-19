@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import '../css/Exercises.css'
 import Multiselect from 'multiselect-react-dropdown';
 import { muscleGroups } from '../models/Global'
-import { createExercise, reset } from '../redux/exercises/exerciseSlice';
+import {getExercises, createExercise, reset } from '../redux/exercises/exerciseSlice';
 import { motion } from "framer-motion"
 import { Backdrop } from './Backdrop';
 
@@ -60,6 +60,9 @@ export const CreateExercise = ({ handleClose }) => {
         } else {
             dispatch(createExercise(newExercise));
             handleClose();
+            setTimeout(() => {
+            dispatch(getExercises());
+            }, 2000);
         }
     }
 
