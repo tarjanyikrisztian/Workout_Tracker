@@ -14,19 +14,26 @@ const createExercise = async (exerciseData, token) => {
     return response.data;
 };
 
-const getExercises = async () => {
-    const response = await axios.get(API_URL)
-    
-    if(response.data) {
-        localStorage.removeItem('exercises');
+const getExercises = async (token) => {
+    if (token) {
+        const config =  {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
+        const response = await axios.get(API_URL, config);
+        return response.data;
+    } else {
+        const response = await axios.get(API_URL);
+        return response.data;
     }
-
-    return response.data
   }
+
 
 const exerciseService = {
     createExercise,
-    getExercises
+    getExercises,
 };
 
 export default exerciseService;

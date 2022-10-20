@@ -1,10 +1,12 @@
 import React from 'react'
 import '../css/ExerciseModel.css'
 import { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 
 
 
 export const ExerciseModel = ({excName,excDesc,bodyparts, id}) => {
+    const { user } = useSelector((state) => state.auth);
 
     const [liked, setLiked] = useState(false);
     const [hasBackground, sethasBackground] = useState(false);
@@ -33,10 +35,12 @@ export const ExerciseModel = ({excName,excDesc,bodyparts, id}) => {
                     <div className="exerciseDescription">
                         {excDesc}
                     </div>
-                    {liked ?
+                    {user && 
+                    (liked ?
                         <i className="fa-solid fa-heart fa-heart1 liked" onClick={() => setLiked(!liked)}></i>
                         :
                         <i className="fa-solid fa-heart fa-heart1" onClick={() => setLiked(!liked)}></i>
+                    )
                     }
                 </div>
             </div>

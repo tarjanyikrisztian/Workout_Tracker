@@ -4,8 +4,6 @@ const API_URL = 'http://127.0.0.1:5000/user/';
 
 const register = async (userDataReg) => {
     const response = await axios.post(API_URL + 'register', userDataReg);
-
-    console.log(response.data);
     localStorage.removeItem('user');
     return response.data;
 };

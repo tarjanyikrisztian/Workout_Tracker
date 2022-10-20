@@ -1,4 +1,4 @@
-import {createSlice, createAsyncThunk} from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import exerciseService from './exerciseService';
 
 const initialState = {
@@ -12,38 +12,43 @@ const initialState = {
 export const createExercise = createAsyncThunk(
     'exercise/createExercise',
     async (exerciseData, thunkAPI) => {
-      try {
-        const token = thunkAPI.getState().auth.user.token
-        return await exerciseService.createExercise(exerciseData, token)
-      } catch (error) {
-        const message =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString()
-        return thunkAPI.rejectWithValue(message)
-      }
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await exerciseService.createExercise(exerciseData, token)
+        } catch (error) {
+            const message =
+                (error.response &&
+                    error.response.data &&
+                    error.response.data.message) ||
+                error.message ||
+                error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
     }
-  )
+)
 
 
 export const getExercises = createAsyncThunk(
     'exercise/fetchExercises',
     async (thunkAPI) => {
         try {
-            return await exerciseService.getExercises();
+            if (localStorage.getItem('user')) {
+                const token = JSON.parse(localStorage.getItem('user')).token
+                return await exerciseService.getExercises(token)
+            } else {
+                return await exerciseService.getExercises(null)
+            }
         } catch (error) {
-            const message = (error.response && error.response.data && error.response.data.message) ||error.message || error.toString();
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
             return thunkAPI.rejectWithValue(message)
-    }
-});
+        }
+    });
 
 export const exerciseSlice = createSlice({
     name: 'exercise',
     initialState,
     reducers: {
-        reset: (state) => {initialState},
+        reset: (state) => { initialState },
     },
     extraReducers: (builder) => {
         builder
@@ -76,9 +81,8 @@ export const exerciseSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.payload;
             })
-
     },
 });
 
-export const {reset} = exerciseSlice.actions;
+export const { reset } = exerciseSlice.actions;
 export default exerciseSlice.reducer;

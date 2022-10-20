@@ -1,15 +1,32 @@
 const asyncHandler = require('express-async-handler');
 const Exercise = require('../models/exerciseModel');
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken');
 
 const getExercises = asyncHandler(async (req, res) => {
-        const exercises = await Exercise.find({ispublic: true});
-        res.status(200).json(exercises);
-});
-
-const getExerciseByUser = asyncHandler(async (req, res) => {
-        const exercises = await Exercise.find({user: req.user._id});
-        res.status(200).json(exercises);
+    const exercisesPublic = await Exercise.find({ispublic: true});
+    let token;
+    let user;
+    if(req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+            token = req.headers.authorization.split(' ')[1];
+            const decoded = jwt.verify(token, process.env.SECRET);
+            user = await User.findById(decoded.id).select('-password');
+    }
+    if(user) {
+    const exercisesLiked = await Exercise.find({_id: {$in: user.likedExercises}});
+    const exercisesMy = await Exercise.find({user: user._id});
+        const exercises = [...exercisesLiked, ...exercisesMy, ...exercisesPublic];
+        //remove duplicates from array of objects by id
+        const uniqueExercises = exercises.filter((value, index) => {
+            const _value = JSON.stringify(value);
+            return index === exercises.findIndex(obj => {
+              return JSON.stringify(obj) === _value;
+            });
+          });
+        res.status(200).json(uniqueExercises);
+    } else {
+        res.status(200).json(exercisesPublic);
+    }
 });
 
 const createExercise = asyncHandler(async (req, res) => {
@@ -81,7 +98,6 @@ const deleteExercise = asyncHandler(async (req, res) => {
 
 module.exports = {
     getExercises, 
-    getExerciseByUser,
     createExercise, 
     updateExercise, 
     deleteExercise
