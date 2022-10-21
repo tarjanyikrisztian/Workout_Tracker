@@ -1,16 +1,11 @@
 const mongoose = require('mongoose');
 
-const exerciseSchema = new mongoose.Schema({
-    exercisename: {
+const workoutSchema = new mongoose.Schema({
+    workoutname: {
         type: String,
         required: true,
         trim: true,
     },
-    bodypart: [{
-        type: String,
-        required: true,
-        trim: true,
-    }],
     description: {
         type: String,
         trim: true,
@@ -25,18 +20,17 @@ const exerciseSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
+    exercises: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'ExerciseInWorkout',
+        default: []
+    }],
     likes: {
         type: Number,
         default: 0
     },
-    likedBy: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: []
-    }],
-
 }, {
     timestamps: true
 });
 
-module.exports = mongoose.model('Exercise', exerciseSchema);
+module.exports = mongoose.model('Workout', workoutSchema);

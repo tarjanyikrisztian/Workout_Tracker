@@ -43,7 +43,7 @@ export const login = createAsyncThunk('auth/login', async (user, thunkAPI) => {
         const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();
         return thunkAPI.rejectWithValue(message)
     }
-})
+});
 
 
 export const authSlice = createSlice({
@@ -91,7 +91,8 @@ export const authSlice = createSlice({
                 state.isSuccess = false;
                 state.message = action.payload;
                 state.user = null;
-            });
+            })
+
 
     }
 });

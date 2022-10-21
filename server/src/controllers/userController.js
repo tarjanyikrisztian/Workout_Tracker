@@ -132,5 +132,5 @@ module.exports = {
     registerUser,
     loginUser,
     getMe,
-    verifyUser
+    verifyUser,
 };

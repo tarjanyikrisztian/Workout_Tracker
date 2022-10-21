@@ -131,6 +131,8 @@
   margin-left: 1rem;
 }
 
+
+
 .plusBtn:hover {
   transform: scale(1.1);
   color: var(--teal-300);
@@ -188,4 +190,12 @@
 .createExercise {
   display: flex;
   flex-direction: row;
+}
+
+.plusActive {
+  color: var(--teal-300);
+  background-color: var(--gray-700);
+  border-radius: 0.75rem;
+  transition: all 0.5s ease-in-out;
+  transition: all 0.5s ease-in-out;
 }

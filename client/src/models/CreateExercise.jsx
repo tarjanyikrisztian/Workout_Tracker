@@ -96,7 +96,7 @@ export const CreateExercise = ({ handleClose }) => {
             animate="visible"
             exit="exit"
             >
-                <i className="fa-solid fa-x" onClick={() => close()}></i>
+                <i className="fa-solid fa-x" onClick={handleClose}></i>
                 <div className="contentAuth">
                     <h2 className='titleAuth activeTitleAuth'>Create a new Exercise</h2>
                     <form onSubmit={onSubmit}>

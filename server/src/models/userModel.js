@@ -19,10 +19,6 @@ const userSchema = new mongoose.Schema({
         required: true,
         minlength: 8
     },
-    likedExcercises: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Exercise'
-    }],
     verified: {
         type: Boolean,
         required: true,

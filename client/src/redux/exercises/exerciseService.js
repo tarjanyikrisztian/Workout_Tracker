@@ -3,7 +3,7 @@ import axios from 'axios';
 const API_URL = 'http://127.0.0.1:5000/exercise/';
 
 const createExercise = async (exerciseData, token) => {
-    const config =  {
+    const config = {
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${token}`
@@ -16,7 +16,7 @@ const createExercise = async (exerciseData, token) => {
 
 const getExercises = async (token) => {
     if (token) {
-        const config =  {
+        const config = {
             headers: {
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`
@@ -28,12 +28,24 @@ const getExercises = async (token) => {
         const response = await axios.get(API_URL);
         return response.data;
     }
-  }
+}
+
+const likeExercise = async (exerciseId, id) => {
+    const response = await axios.put(API_URL + id + '/like/' + exerciseId);
+    return response.data;
+}
+
+const dislikeExercise = async (exerciseId, id) => {
+    const response = await axios.put(API_URL + id + '/dislike/' + exerciseId);
+    return response.data;
+}
 
 
 const exerciseService = {
     createExercise,
     getExercises,
+    likeExercise,
+    dislikeExercise,
 };
 
 export default exerciseService;
