@@ -31,8 +31,6 @@
 }
 
 .searchBarWrap:focus-within {
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
   transition: all 0.25s ease-in-out;
   box-shadow: inset 3px 5px 0px 0px rgba(0, 0, 0, 0.05);
 }
@@ -73,6 +71,17 @@
   column-gap: 3.5rem;
   justify-content: center;
   align-items: center;
+}
+
+.noExercises{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin-top: 5rem;
+  font-size: 3rem;
+  font-weight: bold;
 }
 
 .fa-xmark {

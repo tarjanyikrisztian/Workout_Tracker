@@ -3,6 +3,7 @@ import { Sidebar } from './models/Sidebar'
 import { useState } from 'react';
 import { Home } from './pages/Home'
 import { Exercises } from './pages/Exercises'
+import { Workouts } from './pages/Workouts'
 import { Profile } from './pages/Profile'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
@@ -26,6 +27,7 @@ function App() {
           <Routes>
             <Route path="/"  element={user ? <Profile /> : <Home/>} />
             <Route path="/exercises" element={<Exercises />} />
+            <Route path="/workouts" element={<Workouts />} />
           </Routes>
         </div>
       </Router>

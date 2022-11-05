@@ -84,9 +84,9 @@ export const Sidebar = ({ }) => {
                             </Link>
                         </div>
                         <div className="sidebar__item">
-                            <i className="icon fa-solid fa-calendar-days">
+                            <Link to="/workouts" className="icon fa-solid fa-calendar-days">
                                 <span className='iconInfo'>Workouts</span>
-                            </i>
+                            </Link>
                         </div>
                         <div className="sidebar__item icon_last">
                             <i className='icon singInOut fa-solid fa-right-from-bracket' onClick={() => logoutUser()}>

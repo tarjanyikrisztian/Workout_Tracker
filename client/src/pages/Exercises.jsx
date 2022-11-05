@@ -54,30 +54,54 @@ export const Exercises = () => {
 
   const showLikedExercises = () => {
     const likedBtn = document.getElementById('likedExercisesBtn');
-      if (document.getElementsByClassName('plusActive').length === 0) {
-        likedBtn.classList.add('plusActive');
-        setExercisesType('liked');
-      } else if (likedBtn.classList.contains('plusActive')) {
-        likedBtn.classList.remove('plusActive');
-        setExercisesType('all');
-      }
+    if (document.getElementsByClassName('plusActive').length === 0) {
+      likedBtn.classList.add('plusActive');
+      setExercisesType('liked');
+    } else if (likedBtn.classList.contains('plusActive')) {
+      likedBtn.classList.remove('plusActive');
+      setExercisesType('all');
+    }
   }
 
   const showMyExercises = () => {
-      const myBtn = document.getElementById('myExercisesBtn');
-      if (document.getElementsByClassName('plusActive').length === 0) {
-        myBtn.classList.add('plusActive');
-        setExercisesType('my');
-      } else if (myBtn.classList.contains('plusActive')) {
-        myBtn.classList.remove('plusActive');
-        setExercisesType('all');
-      }
+    const myBtn = document.getElementById('myExercisesBtn');
+    if (document.getElementsByClassName('plusActive').length === 0) {
+      myBtn.classList.add('plusActive');
+      setExercisesType('my');
+    } else if (myBtn.classList.contains('plusActive')) {
+      myBtn.classList.remove('plusActive');
+      setExercisesType('all');
+    }
   }
 
 
   const onSelectMuscle = (selectedList) => {
     setSelectedMuscleGroups(selectedList);
+    filterExercises();
   }
+
+  const filterExercises = () => {
+    if (selectedMuscleGroups.length === 0) {
+      setExercisesList(exercises);
+    } else {
+      setExercisesList(exercises.filter(exercise => {
+        return selectedMuscleGroups.every(selectedMuscleGroup => {
+          return exercise.bodypart.includes(selectedMuscleGroup);
+        })
+      }));
+    }
+  }
+
+  // search exercises
+  const searchExercises = (e) => {
+    const searchValue = e.target.value.toLowerCase();
+    setExercisesList(exercises.filter(exercise => {
+      return exercise.exercisename.toLowerCase().includes(searchValue);
+    }));
+  }
+
+
+
 
 
   const [openCreateExercise, setOpenCreateExercise] = useState(false);
@@ -114,7 +138,9 @@ export const Exercises = () => {
         <div className="exerciseSearch">
           <span className="searchBarWrap">
             <i className="fa-solid fa-magnifying-glass"></i>
-            <input type="search" placeholder="Search for an exercise" className="searchBar" />
+            <input type="search" placeholder="Search for an exercise" className="searchBar"
+              onChange={searchExercises} />
+
 
           </span>
           <form className="filterMuscleForm">
@@ -150,9 +176,14 @@ export const Exercises = () => {
             </div>
           }
         </div>
+        {exercisesList.length === 0 ?
+        <p className="noExercises">No exercises found. 😢</p>
+        :
+        (
         <div className='exerciseGrid'>
           {returnExercises}
         </div>
+        )}
       </div>
       <AnimatePresence
         initial={false}
