@@ -21,6 +21,7 @@ const getExercises = asyncHandler(async (req, res) => {
                 return JSON.stringify(obj) === _value;
             });
         });
+        // foreach exercise, change image to base64 
         res.status(200).json(uniqueExercises);
     } else {
         res.status(200).json(exercisesPublic);
@@ -28,7 +29,7 @@ const getExercises = asyncHandler(async (req, res) => {
 });
 
 const createExercise = asyncHandler(async (req, res) => {
-    const { exercisename, bodypart, description, ispublic, image } = req.body;
+    const { exercisename, bodypart, description, ispublic, image, imageType } = req.body;
     const user = req.user;
     if (!exercisename || !bodypart) {
         res.status(400).json({ message: 'Please fill in all fields' });
@@ -46,6 +47,7 @@ const createExercise = asyncHandler(async (req, res) => {
         description,
         ispublic,
         image,
+        imageType,
         user,
     })
     if (!exercise) {

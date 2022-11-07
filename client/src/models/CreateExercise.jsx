@@ -8,41 +8,44 @@ import { muscleGroups } from '../models/Global'
 import { getExercises, createExercise, reset } from '../redux/exercises/exerciseSlice';
 import { motion } from "framer-motion"
 import { Backdrop } from './Backdrop';
+import { Buffer } from 'buffer';
 
 
 
 export const CreateExercise = ({ handleClose }) => {
     const dispatch = useDispatch();
 
-    
+
     const { user } = useSelector((state) => state.auth);
-    
+
     const { isSuccess, isError, isLoading } = useSelector((state) => state.exercises);
-    
+
     const [newExerciseMuscleGroups, setNewExerciseMuscleGroups] = useState([]);
     const [isPublic, setIsPublic] = useState(false);
-    
+
     const onSelectMuscle = (selectedList) => {
         setNewExerciseMuscleGroups(selectedList);
     }
-    
+
     const [file, setFile] = useState(null);
     const [preview, setPreview] = useState(null);
+    const [fileExtension, setFileExtension] = useState(null);
 
 
     function handleFile(evt) {
         let f = evt.target.files[0]; // FileList object
+        setFileExtension(f.name.split('.').pop());
         setPreview(URL.createObjectURL(f));
-        /*let reader = new FileReader();
-        reader.onload = (function(theFile) {
-          return function(e) {
-            let binaryData = e.target.result;
-            let base64String = window.btoa(binaryData);
-            setFile(base64String);
-          };
+        let reader = new FileReader();
+        reader.onload = (function (theFile) {
+            return function (e) {
+                let binaryData = e.target.result;
+                let base64String = window.btoa(binaryData);
+                setFile(base64String);
+            };
         })(f);
-        reader.readAsBinaryString(f);*/
-      }
+        reader.readAsBinaryString(f);
+    }
 
     const [formDataExc, setFormDataExc] = useState({
         exercisename: "",
@@ -50,7 +53,8 @@ export const CreateExercise = ({ handleClose }) => {
         description: "",
         ispublic: isPublic,
         user: "",
-        image: file
+        image: file,
+        imageType: fileExtension
     });
 
 
@@ -63,19 +67,25 @@ export const CreateExercise = ({ handleClose }) => {
         }))
     }
 
+    useEffect(() => {
+        console.log(fileExtension)
+    }, [fileExtension])
+
 
     const onSubmit = (e) => {
         e.preventDefault();
         const bodypart = newExerciseMuscleGroups;
         const ispublic = isPublic;
-        //const image = Buffer.from(file);
+        const image = file;
+        const imageType = fileExtension;
         const newExercise = {
             exercisename,
             bodypart,
             description,
             ispublic,
             user,
-            //image
+            image,
+            imageType
         }
         if (bodypart.length === 0) {
             toast.error("Please select at least one muscle group");
@@ -157,9 +167,15 @@ export const CreateExercise = ({ handleClose }) => {
                             <i className="fa-solid fa-comment"></i>
                             <textarea className="form-input" id="description" type="textarea" rows="4" placeholder="Description" name='description' value={description} onChange={onChangeExc} />
                         </span>
-                        <span className="input-item input-item-upload">
-                            <input type="file" id="file" name="file" onChange={handleFile} accept="image/png, image/jpeg" className='imageSelector' />
-                            {preview && <img src={preview} alt="preview" className='exerciseImagePreview' />}
+                        <span className="input-item input-item-upload" htmlFor="file">
+                            <label htmlFor="file" className="file-upload">
+                                <i className="fa-solid fa-upload"></i>
+                                <span>Drag & drop or select an image.</span>
+                            <input type="file" id="file" name="file" onChange={handleFile} accept="image/png, image/jpeg" hidden/>
+                            {preview && 
+                            <img src={preview} alt="preview" className='exerciseImagePreview' />
+                            }
+                            </label>
                         </span>
                         <span className="input-item-check">
                             <input className="form-input-public" id="ispublic" type="checkbox" name='ispublic' onChange={onChangeExc} onClick={() => setIsPublic(!isPublic)} />
