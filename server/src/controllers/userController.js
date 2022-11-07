@@ -76,6 +76,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 _id: user._id,
                 firstname: user.firstname,
                 lastname: user.lastname,
+                bio: user.bio,
                 email: user.email,
                 token: generateToken(user._id, '1d'),
                 verified: user.verified,
@@ -91,6 +92,32 @@ const loginUser = asyncHandler(async (req, res) => {
             message: 'Invalid email or password 🤔'
         });
         throw new Error('Invalid email or password');
+    }
+});
+
+const updateUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (user) {
+        user.firstname = req.body.firstname || user.firstname;
+        user.lastname = req.body.lastname || user.lastname;
+        user.bio = req.body.bio || user.bio;
+        /*if (req.body.password) {
+            const salt = await bcrypt.genSalt(10);
+            user.password = await bcrypt.hash(req.body.password, salt);
+        }*/
+        const updatedUser = await user.save();
+        res.json({
+            _id: updatedUser._id,
+            firstname: updatedUser.firstname,
+            lastname: updatedUser.lastname,
+            bio: updatedUser.bio,
+            email: updatedUser.email,
+            token: generateToken(updatedUser._id, '1d'),
+            verified: updatedUser.verified,
+        });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
     }
 });
 
@@ -150,5 +177,6 @@ module.exports = {
     registerUser,
     loginUser,
     getMe,
+    updateUser,
     verifyUser,
 };

@@ -8,7 +8,6 @@ import { muscleGroups } from '../models/Global'
 import { getExercises, createExercise, reset } from '../redux/exercises/exerciseSlice';
 import { motion } from "framer-motion"
 import { Backdrop } from './Backdrop';
-import { Buffer } from 'buffer';
 
 
 
