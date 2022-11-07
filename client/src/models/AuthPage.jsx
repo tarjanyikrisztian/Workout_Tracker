@@ -244,7 +244,7 @@ export const AuthPage = ({ handleClose }) => {
             left: "50%",
             top: "50%",
             width: "25rem",
-            height: "30rem",
+            height: "29.5rem",
             borderRadius: "1rem",
             transition: {
                 duration: 0.25,
@@ -263,12 +263,6 @@ export const AuthPage = ({ handleClose }) => {
 
         sign: {
             height: "43rem",
-            transition: {
-                duration: 0.25,
-            },
-        },
-        login: {
-            height: "30rem",
             transition: {
                 duration: 0.25,
             },

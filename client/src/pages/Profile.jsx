@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../css/Profile.css'
 import { motion, AnimatePresence } from "framer-motion"
 import { ProfileInfoEdit } from '../models/ProfileInfoEdit';
+import { Buffer } from 'buffer';
 
 export const Profile = () => {
 
@@ -13,6 +14,13 @@ export const Profile = () => {
     userIcon = `fa-solid fa-${user.firstname[0].toLowerCase()}`;
   }
 
+  useEffect(() => {
+    if (user.image) {
+      const profileImage = document.getElementById(`profImage`);
+      let image = Buffer.from(user.image, 'base64').toString('ascii');
+      profileImage.style.backgroundImage = `url('data:image/JPEG;base64,${image}')`;
+    }
+  }, [user.image]);
   const [edit, setEdit] = useState(false);
 
   const open = () => { setEdit(true) };
@@ -20,37 +28,28 @@ export const Profile = () => {
 
   return (
     <>
-    <div className='profile'>
-      <div className="profileRow1">
-        <div className="profileInfo profileCards">
-          <div className="profileInfoTop">
-            <div className="profileImage">
-              {user.image
-                ? <img src={user.image} alt="profile" />
-                : <i className={userIcon} />
-              }
+      <div className='profile'>
+        <div className="profileRow1">
+          <div className="profileInfo profileCards">
+            <div className="profileInfoTop">
+              <div className="profileImage" id="profImage">
+                {!user.image &&
+                  <i className={userIcon} />
+                }
+              </div>
+              <span className="profileName">{user.firstname} {user.lastname}</span>
             </div>
-            <span className="profileName">{user.firstname} {user.lastname}</span>
+            <span className="profileBio">
+              {(user.bio.length > 0) ? user.bio : "No bio yet."}
+            </span>
+            <i className="fa-solid fa-pen pen-profile" onClick={() => (edit ? close() : open())}></i>
           </div>
-          <span className="profileBio">
-            {(user.bio.length > 0) ? user.bio : "No bio yet."}
-          </span>
-          <i className="fa-solid fa-pen pen-profile" onClick={() => (edit ? close() : open())}></i>
-        </div>
-        <div className="div2 profileCards">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos eaque laborum corporis laboriosam incidunt atque fuga qui repudiandae placeat totam, recusandae in repellat officiis! Numquam vero voluptas id quis libero?
-
+          <div className="div2 profileCards">
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempora labore, debitis laboriosam, nulla nemo, ut maiores odio quibusdam alias ullam iure officiis cumque doloribus expedita et porro quasi obcaecati?
+          </div>
         </div>
       </div>
-    </div>
-    <AnimatePresence
+      <AnimatePresence
         initial={false}
         exitBeforeEnter={true}
         onExitComplete={() => null}

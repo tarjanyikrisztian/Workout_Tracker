@@ -38,10 +38,6 @@ const exerciseSchema = new mongoose.Schema({
         type: Buffer,
         default: null,
     },
-    imageType: {
-        type: String,
-        default: null,
-    }
 }, {
     timestamps: true
 });

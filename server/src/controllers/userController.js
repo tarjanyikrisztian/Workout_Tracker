@@ -78,6 +78,7 @@ const loginUser = asyncHandler(async (req, res) => {
                 lastname: user.lastname,
                 bio: user.bio,
                 email: user.email,
+                image: user.image,
                 token: generateToken(user._id, '1d'),
                 verified: user.verified,
             });
@@ -101,10 +102,12 @@ const updateUser = asyncHandler(async (req, res) => {
         user.firstname = req.body.firstname || user.firstname;
         user.lastname = req.body.lastname || user.lastname;
         user.bio = req.body.bio || user.bio;
+        user.image = req.body.image || user.image;
         /*if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(req.body.password, salt);
         }*/
+
         const updatedUser = await user.save();
         res.json({
             _id: updatedUser._id,
@@ -112,6 +115,7 @@ const updateUser = asyncHandler(async (req, res) => {
             lastname: updatedUser.lastname,
             bio: updatedUser.bio,
             email: updatedUser.email,
+            image: updatedUser.image,
             token: generateToken(updatedUser._id, '1d'),
             verified: updatedUser.verified,
         });

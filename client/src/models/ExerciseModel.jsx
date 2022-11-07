@@ -30,9 +30,9 @@ export const ExerciseModel = ({ exercise, key_id }) => {
                 exercises.style.backgroundImage = "url('https://images.unsplash.com/photo-1620188467120-5042ed1eb5da?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=687&q=80')";
             } else {
                 let image = Buffer.from(exercise.image, 'base64').toString('ascii');
-                exercises.style.backgroundImage = `url('data:image/${user.imageType};base64,${image}')`;
+                exercises.style.backgroundImage = `url('data:image/JPEG;base64,${image}')`;
             }
-    }, []);
+    }, [exercise.image]);
 
     let id_name = `exercise-${key_id}`;
 

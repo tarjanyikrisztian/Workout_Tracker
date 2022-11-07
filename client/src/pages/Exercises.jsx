@@ -60,6 +60,10 @@ export const Exercises = () => {
     } else if (likedBtn.classList.contains('plusActive')) {
       likedBtn.classList.remove('plusActive');
       setExercisesType('all');
+    } else {
+      const myBtn = document.getElementById('myExercisesBtn');
+      myBtn.classList.remove('plusActive');
+      showLikedExercises();
     }
   }
 
@@ -71,6 +75,10 @@ export const Exercises = () => {
     } else if (myBtn.classList.contains('plusActive')) {
       myBtn.classList.remove('plusActive');
       setExercisesType('all');
+    } else {
+      const likedBtn = document.getElementById('likedExercisesBtn');
+      likedBtn.classList.remove('plusActive');
+      showMyExercises();
     }
   }
 
@@ -85,14 +93,13 @@ export const Exercises = () => {
       setExercisesList(exercises);
     } else {
       setExercisesList(exercises.filter(exercise => {
-        return selectedMuscleGroups.every(selectedMuscleGroup => {
+        return selectedMuscleGroups.some(selectedMuscleGroup => {
           return exercise.bodypart.includes(selectedMuscleGroup);
         })
       }));
     }
   }
 
-  // search exercises
   const searchExercises = (e) => {
     const searchValue = e.target.value.toLowerCase();
     setExercisesList(exercises.filter(exercise => {
@@ -128,8 +135,8 @@ export const Exercises = () => {
 
   let returnExercises = [];
   for (let i = 0; i < exercisesList.length; i++) {
-    if(exercisesList[i]){
-    returnExercises.push(<ExerciseModel key_id={i} exercise={exercisesList[i]} />)
+    if (exercisesList[i]) {
+      returnExercises.push(<ExerciseModel key_id={i} exercise={exercisesList[i]} />)
     }
   }
 
@@ -142,28 +149,26 @@ export const Exercises = () => {
             <i className="fa-solid fa-magnifying-glass"></i>
             <input type="search" placeholder="Search for an exercise" className="searchBar"
               onChange={searchExercises} />
-
-
+            <form className="filterMuscleForm">
+              <Multiselect
+                isObject={false}
+                options={muscleGroups}
+                placeholder="Muscles"
+                hidePlaceholder={true}
+                id="muscleFilter"
+                selectedValues={selectedMuscleGroups}
+                onSelect={onSelectMuscle}
+                onRemove={onSelectMuscle}
+                closeIcon="cancel"
+                style={{
+                  optionContainer: { border: "none" },
+                  chips: { margin: "1px", padding: "0", paddingLeft: "2px", paddingRight: "2px", backgroundColor: "var(--teal-500)", borderRadius: "5px", color: "#e4e4e4" },
+                  searchBox: { border: "none", minWidth: "15rem", maxHeight: "3.5rem", backgroundColor: "#e4e4e4", cursor: "pointer", marginLeft: "0.5rem", marginRight: "0.5rem", padding: "1px", paddingBottom: "2px" },
+                }}
+                avoidHighlightFirstOption={true}
+              />
+            </form>
           </span>
-          <form className="filterMuscleForm">
-            <Multiselect
-              isObject={false}
-              options={muscleGroups}
-              placeholder="Muscle groups"
-              hidePlaceholder={true}
-              id="muscleFilter"
-              selectedValues={selectedMuscleGroups}
-              onSelect={onSelectMuscle}
-              onRemove={onSelectMuscle}
-              closeIcon="cancel"
-              style={{
-                optionContainer: { border: "none" },
-                chips: { margin: "1px", padding: "0", paddingLeft: "2px", paddingRight: "2px", backgroundColor: "var(--teal-500)", borderRadius: "5px", color: "white" },
-                searchBox: { border: "none", maxWidth: "15rem", maxHeight: "3rem", backgroundColor: "white", cursor: "pointer", margin: "0", padding: "1px", paddingBottom: "2px" },
-              }}
-              avoidHighlightFirstOption={true}
-            />
-          </form>
           {user &&
             <div className="createExercise">
               <button className='btn plusMyExcBtn' id='myExercisesBtn' onClick={() => showMyExercises()}>
@@ -179,13 +184,17 @@ export const Exercises = () => {
           }
         </div>
         {exercisesList.length === 0 ?
-        <p className="noExercises">No exercises found. 😢</p>
-        :
-        (
-        <div className='exerciseGrid'>
-          {returnExercises}
-        </div>
-        )}
+          (isLoading ?
+            <p className="noExercises">Exercises loading. 🙌</p>
+            :
+            <p className="noExercises">No exercises found. 😢</p>
+          )
+          :
+          (
+            <div className='exerciseGrid'>
+              {returnExercises}
+            </div>
+          )}
       </div>
       <AnimatePresence
         initial={false}

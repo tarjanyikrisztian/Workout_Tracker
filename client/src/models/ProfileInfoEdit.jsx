@@ -5,6 +5,8 @@ import '../css/Profile.css'
 import { motion } from "framer-motion"
 import { Backdrop } from './Backdrop';
 import { update } from '../redux/auth/authSlice';
+import Resizer from "react-image-file-resizer";
+import { Buffer } from 'buffer';
 
 export const ProfileInfoEdit = ({ handleClose }) => {
     const { user } = useSelector(state => state.auth);
@@ -16,15 +18,43 @@ export const ProfileInfoEdit = ({ handleClose }) => {
         userIcon = `fa-solid fa-${user.firstname[0].toLowerCase()}`;
     }
 
+    const [file, setFile] = useState(null);
+    const [preview, setPreview] = useState(null);
+
+    const resizeFile = (file) =>
+        new Promise((resolve) => {
+            Resizer.imageFileResizer(
+                file,
+                64,
+                64,
+                "JPEG",
+                100,
+                0,
+                (uri) => {
+                    resolve(uri);
+                },
+                "base64"
+            );
+        });
+
+
+        const handleFile = (evt) => {
+            let f = evt.target.files[0];
+            setPreview(URL.createObjectURL(f));
+            resizeFile(f).then((resizedImageUri) => {
+                setFile(resizedImageUri.split(",")[1]);
+            });
+        }
+
     const [formData, setFormData] = useState({
         firstname: user.firstname,
         lastname: user.lastname,
         email: user.email,
         bio: user.bio,
-        //image: user.image
+        image: user.image,
     });
 
-    const { firstname, lastname, email, bio } = formData;
+    const { firstname, lastname, bio, } = formData;
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -35,30 +65,40 @@ export const ProfileInfoEdit = ({ handleClose }) => {
 
     const onSubmit = (e) => {
         e.preventDefault();
-
-        dispatch(update(formData));
-
+        const image = file;
+        const updatedUser = {
+            firstname,
+            lastname,
+            bio,
+            image,
+        };
+        dispatch(update(updatedUser));
         handleClose();
     }
+
+    useEffect(() => {
+        if (user.image) {
+          const profileImage = document.getElementById(`profImageEdit`);
+          let image = Buffer.from(user.image, 'base64').toString('ascii');
+          profileImage.style.backgroundImage = `url('data:image/JPEG;base64,${image}')`;
+        }
+      }, []);
 
 
     const slideIn = {
         hidden: {
-            top: "1rem",
-            left: "1rem",
-            scale: 0.2,
-            opacity: 0
+            top: "50%",
+            left: "-100%",
+            transform: "translate(-50%, -50%)",
         },
         visible: {
-            scale: 1,
-            opacity: 1,
+            left: "50%",
             transition: {
                 duration: 0.2,
             },
         },
         exit: {
-            scale: 0.2,
-            opacity: 0,
+            left: "-100%",
             transition: {
                 duration: 0.2,
             },
@@ -76,13 +116,17 @@ export const ProfileInfoEdit = ({ handleClose }) => {
             >
                 <i className="fa-solid fa-x" onClick={handleClose}></i>
                 <div className="profileEditRow1">
-                <div className="profileImage">
-                    {user.image
-                        ? <img src={user.image} alt="profile" />
-                        : <i className={userIcon} />
-                    }
-                </div>
-                <h1>Edit profile</h1>
+                    <div className="profileImage profileImageEdit">
+                        <label htmlFor="file">
+                            <input type="file" id="file" name="file" onChange={handleFile} accept="image/png, image/jpeg" hidden />
+                            {preview ? <img src={preview} alt="preview" /> 
+                            : (user.image ?
+                                <div id="profImageEdit" className="profileImage"></div>
+                                : <i className={userIcon}></i>
+                                )}
+                        </label>
+                    </div>
+                    <h1>Edit profile</h1>
                 </div>
                 <form onSubmit={onSubmit}>
                     <span className="input-item">
@@ -94,9 +138,9 @@ export const ProfileInfoEdit = ({ handleClose }) => {
                     <span className="input-item">
                         <input type="textarea" rows="4" className="form-input" value={bio} placeholder="Bio" name="bio" onChange={onChange} />
                     </span>
-                <button className="btn" type="submit">
-                    Save
-                </button>
+                    <button className="btn" type="submit">
+                        Save
+                    </button>
                 </form>
             </motion.div>
         </Backdrop>
