@@ -67,7 +67,7 @@ export const Sidebar = ({ }) => {
 
     let userIcon = "icon fa-solid fa-user-circle";
    if(user) {
-    userIcon = `icon fa-solid fa-${user.username[0].toLowerCase()}`;
+    userIcon = `icon fa-solid fa-${user.firstname[0].toLowerCase()}`;
    }
     return (
         <> 
@@ -75,7 +75,7 @@ export const Sidebar = ({ }) => {
                 <i className="extend fa-solid fa-angle-double-left" onClick={() => setExtended(!extended)}></i>  
                         <div className="sidebar__item">
                             <Link to="/" className={userIcon}>
-                                <span className='iconInfo'>{user.username}</span>
+                                <span className='iconInfo'>{user.firstname}</span>
                             </Link>
                         </div>
                         <div className="sidebar__item">

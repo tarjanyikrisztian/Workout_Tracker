@@ -34,7 +34,10 @@ const exerciseSchema = new mongoose.Schema({
         ref: 'User',
         default: []
     }],
-
+    image: {
+        type: Buffer,
+        default: null,
+    }
 }, {
     timestamps: true
 });

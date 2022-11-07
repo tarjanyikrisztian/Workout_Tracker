@@ -10,7 +10,6 @@ const createExercise = async (exerciseData, token) => {
         }
     }
     const response = await axios.post(API_URL, exerciseData, config);
-
     return response.data;
 };
 

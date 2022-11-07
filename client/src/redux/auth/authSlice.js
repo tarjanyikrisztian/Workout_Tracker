@@ -18,8 +18,6 @@ export const register = createAsyncThunk(
             const response = await authService.register(user);
             if (user.verified) {
                 return response;
-            } else {
-                return null;
             }
         } catch (error) {
             const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString();

@@ -40,13 +40,14 @@ export const AuthPage = ({ handleClose }) => {
 
 
     const [formDataReg, setFormDataReg] = useState({
-        username: "",
+        firstname: "",
+        lastname: "",
         email: "",
         password: "",
         password2: "",
     });
 
-    const { username, email, password, password2 } = formDataReg;
+    const { firstname, lastname, email, password, password2 } = formDataReg;
 
 
     const navigate = useNavigate();
@@ -174,7 +175,8 @@ export const AuthPage = ({ handleClose }) => {
             toast.error('Passwords do not match 🤔');
         } else {
             const userDataReg = {
-                username,
+                firstname,
+                lastname,
                 email,
                 password,
             }
@@ -182,7 +184,8 @@ export const AuthPage = ({ handleClose }) => {
             dispatch(register(userDataReg))
         }
         setFormDataReg({
-            username: "",
+            firstname: "",
+            lastname: "",
             email: "",
             password: "",
             password2: "",
@@ -223,10 +226,10 @@ export const AuthPage = ({ handleClose }) => {
 
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); // Do not send to your backend! Use an ID token instead.
+        console.log('ID: ' + profile.getId()); 
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
-        console.log('Email: ' + profile.getEmail()); // This is null if the 'email' scope is not present.
+        console.log('Email: ' + profile.getEmail());
     }
 
     const authAppear = {
@@ -259,7 +262,7 @@ export const AuthPage = ({ handleClose }) => {
         },
 
         sign: {
-            height: "38rem",
+            height: "43rem",
             transition: {
                 duration: 0.25,
             },
@@ -304,7 +307,11 @@ export const AuthPage = ({ handleClose }) => {
                         <form onSubmit={onSubmitReg}>
                             <span className="input-item">
                                 <i className="fa-solid fa-user"></i>
-                                <input className="form-input" id="username" type="text" placeholder="Username" name='username' value={username} onChange={onChangeReg} required />
+                                <input className="form-input" id="firstname" type="text" placeholder="Firstname" name='firstname' value={firstname} onChange={onChangeReg} required />
+                            </span>
+                            <span className="input-item">
+                                <i className="fa-solid fa-user"></i>
+                                <input className="form-input" id="lastname" type="text" placeholder="Lastname" name='lastname' value={lastname} onChange={onChangeReg} required />
                             </span>
                             <span className="input-item">
                                 <i className="fa-solid fa-envelope"></i>

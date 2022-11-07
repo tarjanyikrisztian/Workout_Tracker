@@ -128,7 +128,9 @@ export const Exercises = () => {
 
   let returnExercises = [];
   for (let i = 0; i < exercisesList.length; i++) {
-    returnExercises.push(<ExerciseModel key={i} exercise={exercisesList[i]} />)
+    if(exercisesList[i]){
+    returnExercises.push(<ExerciseModel key_id={i} exercise={exercisesList[i]} />)
+    }
   }
 
   return (

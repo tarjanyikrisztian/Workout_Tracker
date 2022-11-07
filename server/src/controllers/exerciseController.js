@@ -28,7 +28,7 @@ const getExercises = asyncHandler(async (req, res) => {
 });
 
 const createExercise = asyncHandler(async (req, res) => {
-    const { exercisename, bodypart, description, ispublic } = req.body;
+    const { exercisename, bodypart, description, ispublic, image } = req.body;
     const user = req.user;
     if (!exercisename || !bodypart) {
         res.status(400).json({ message: 'Please fill in all fields' });
@@ -45,6 +45,7 @@ const createExercise = asyncHandler(async (req, res) => {
         bodypart,
         description,
         ispublic,
+        image,
         user,
     })
     if (!exercise) {
@@ -56,7 +57,7 @@ const createExercise = asyncHandler(async (req, res) => {
 
 
 const updateExercise = asyncHandler(async (req, res) => {
-    const { exercisename, bodypart, description, ispublic } = req.body;
+    const { exercisename, bodypart, description, ispublic, image } = req.body;
     const exercise = await Exercise.findById(req.params.id);
 
     if (!exercise) {
