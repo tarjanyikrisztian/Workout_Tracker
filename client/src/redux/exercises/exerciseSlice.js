@@ -78,9 +78,12 @@ export const exerciseSlice = createSlice({
         builder
             .addCase(createExercise.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(createExercise.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.message = action.payload.message;
                 state.exercises.push(action.payload.exercise);
@@ -93,9 +96,12 @@ export const exerciseSlice = createSlice({
             })
             .addCase(getExercises.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(getExercises.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.exercises = action.payload;
             })
@@ -107,9 +113,12 @@ export const exerciseSlice = createSlice({
             })
             .addCase(likeExercise.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(likeExercise.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.exercises = state.exercises.map((exercise) => {
                     if (exercise._id === action.payload._id) {
@@ -127,9 +136,12 @@ export const exerciseSlice = createSlice({
             })
             .addCase(dislikeExercise.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(dislikeExercise.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.exercises = state.exercises.map((exercise) => {
                     if (exercise._id === action.payload._id) {

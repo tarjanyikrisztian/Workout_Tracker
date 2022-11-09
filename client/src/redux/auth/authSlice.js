@@ -70,9 +70,12 @@ export const authSlice = createSlice({
         builder
             .addCase(register.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(register.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.user = action.payload;
             })
@@ -88,9 +91,12 @@ export const authSlice = createSlice({
             })
             .addCase(login.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(login.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.user = action.payload;
             })
@@ -103,9 +109,12 @@ export const authSlice = createSlice({
             })
             .addCase(update.pending, (state) => {
                 state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
             })
             .addCase(update.fulfilled, (state, action) => {
                 state.isLoading = false;
+                state.isError = false;
                 state.isSuccess = true;
                 state.user = action.payload;
             })

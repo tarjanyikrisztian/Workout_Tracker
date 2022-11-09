@@ -2,6 +2,7 @@
     width: 25rem;
     height: 20rem;
     padding-bottom: 1.5rem;
+    position: relative;
 }
 
 .exerciseContainer{
@@ -64,7 +65,8 @@
 
 .bodypartsContainer{
     position: absolute;
-    translate: 1rem -1rem;
+    bottom: 0.75rem;
+    left: 1rem;
 }
 
 .bodypart{
@@ -141,4 +143,65 @@
         color: var(--gray-900);
     }
 
+}
+
+.exerciseModelSkeleton{
+    width: 25rem;
+    height: 20rem;
+    padding-bottom: 1.5rem;
+    position: relative;
+}
+
+.exerciseContainerSkeleton{
+    width: 100%;
+    height: 100%;
+    padding-left: 1.5rem;
+    padding-top: 1rem;
+    border-radius: 1rem;
+    background: linear-gradient(90deg, rgba(173, 184, 202, 0.65) 0%, rgb(220, 234, 255, 0.5) 50%, rgba(173, 184, 202, 0.65) 100%);
+    background-size: 200% 100%;
+    animation: SkeletonShimmer 1.5s linear infinite;
+}
+
+.exerciseNameSkeleton{
+    display: block;
+    background: linear-gradient(90deg, rgb(126, 134, 147, 0.75) 0%, rgba(79, 84, 92, 0.5) 50%, rgb(126, 134, 147, 0.75) 100%);
+    background-size: 200% 100%;
+    animation: SkeletonShimmer 1s linear infinite;
+    width: 16rem;
+    height: 2.75rem;
+    border-radius: 0.75rem;
+}
+
+.bodypartsContainerSkeleton{
+    position: absolute;
+    bottom: 0.2rem;
+    left: 1.5rem;
+}
+
+.bodypartSkeleton{
+    display: inline-block;
+    background: linear-gradient(90deg, rgba(173, 184, 202, 1) 0%, rgb(140, 149, 163) 50%, rgba(173, 184, 202, 1) 100%);
+    background-size: 200% 100%;
+    animation: SkeletonShimmer 2s linear infinite;
+    width: 4.5rem;
+    height: 2.1rem;
+    padding-top: 0.3rem;
+    padding-bottom: 0.3rem;
+    padding-left: 0.6rem;
+    padding-right: 0.6rem;
+    border-radius: 0.75rem;
+    margin-right: 0.5rem;
+}
+
+@keyframes SkeletonShimmer{
+    0%{
+        background-position: 0 0%;
+    }
+    50%{
+        background-position: -100% 0%;
+    }
+    100%{
+        background-position: -200% 0%;
+    }
 }

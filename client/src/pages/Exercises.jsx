@@ -2,6 +2,7 @@ import React from 'react'
 import '../css/Exercises.css'
 import { useState, useEffect } from 'react';
 import { ExerciseModel } from '../models/ExerciseModel'
+import { ExerciseModelSkeleton } from '../models/ExerciseModelSkeleton'
 import Multiselect from 'multiselect-react-dropdown';
 import { selectedMuscleGroups, setSelectedMuscleGroups, muscleGroups } from '../models/Global'
 import { useSelector, useDispatch } from 'react-redux'
@@ -21,17 +22,12 @@ export const Exercises = () => {
 
   const [exercisesList, setExercisesList] = useState(exercises);
 
+
   useEffect(() => {
     if (isError) {
       toast.error("Error fetching exercises");
       dispatch(reset());
     }
-
-    if (isLoading) {
-      toast.loading("Loading exercises...");
-    }
-
-    dispatch(getExercises());
 
     setExercisesList(exercises);
 
@@ -185,7 +181,16 @@ export const Exercises = () => {
         </div>
         {exercisesList.length === 0 ?
           (isLoading ?
-            <p className="noExercises">Exercises loading. 🙌</p>
+            <div className='exerciseGrid'>
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+              <ExerciseModelSkeleton />
+            </div>
             :
             <p className="noExercises">No exercises found. 😢</p>
           )

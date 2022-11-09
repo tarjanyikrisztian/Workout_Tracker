@@ -7,8 +7,18 @@ import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AuthPage } from '../models/AuthPage';
 import { Navbar } from '../models/Navbar';
+import { getExercises, reset } from '../redux/exercises/exerciseSlice';
 
 export const Home = () => {
+  const dispatch = useDispatch();
+  
+  const { user } = useSelector((state) => state.auth);
+
+  const { exercises, isSuccess, isError, isLoading, message } = useSelector((state) => state.exercises);
+
+  useEffect(() => {
+    dispatch(getExercises());
+  }, []);
 
   setTimeout(() => {
     const left = document.getElementById("left");
