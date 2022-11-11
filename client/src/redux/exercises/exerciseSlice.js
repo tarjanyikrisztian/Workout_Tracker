@@ -44,6 +44,30 @@ export const getExercises = createAsyncThunk(
         }
     });
 
+export const updateExercise = createAsyncThunk(
+    'exercise/updateExercise',
+    async (exerciseData, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await exerciseService.updateExercise(exerciseData, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    });
+
+export const deleteExercise = createAsyncThunk(
+    'exercise/deleteExercise',
+    async (id, thunkAPI) => {
+        try {
+            const token = thunkAPI.getState().auth.user.token
+            return await exerciseService.deleteExercise(id, token)
+        } catch (error) {
+            const message = (error.response && error.response.data && error.response.data.message) || error.message || error.toString()
+            return thunkAPI.rejectWithValue(message)
+        }
+    });
+
 export const likeExercise = createAsyncThunk(
     'exercise/likeExercise',
     async (exerciseId, thunkAPI) => {
@@ -152,6 +176,46 @@ export const exerciseSlice = createSlice({
                 });
             })
             .addCase(dislikeExercise.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.payload;
+            })
+            .addCase(updateExercise.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
+            })
+            .addCase(updateExercise.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.exercises = state.exercises.map((exercise) => {
+                    if (exercise._id === action.payload._id) {
+                        return action.payload;
+                    } else {
+                        return exercise;
+                    }
+                });
+            })
+            .addCase(updateExercise.rejected, (state, action) => {
+                state.isLoading = false;
+                state.isError = true;
+                state.isSuccess = false;
+                state.message = action.payload;
+            })
+            .addCase(deleteExercise.pending, (state) => {
+                state.isLoading = true;
+                state.isError = false;
+                state.isSuccess = false;
+            })
+            .addCase(deleteExercise.fulfilled, (state, action) => {
+                state.isLoading = false;
+                state.isError = false;
+                state.isSuccess = true;
+                state.exercises = state.exercises.filter((exercise) => exercise._id !== action.payload._id);
+            })
+            .addCase(deleteExercise.rejected, (state, action) => {
                 state.isLoading = false;
                 state.isError = true;
                 state.isSuccess = false;

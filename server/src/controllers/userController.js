@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
 const nodemailer = require('nodemailer');
+const verifyEmail = require('../utils/verifyEmail');
+
 
 const transporter = nodemailer.createTransport({
     service: 'gmail',
@@ -11,6 +13,25 @@ const transporter = nodemailer.createTransport({
         pass: process.env.EMAIL_PASSWORD
     }
 });
+
+const generateVerifyEmail = (user) => {
+    const verifyUrl = "localhost:5000/user/" + user._id + "/verify/" + generateToken(user._id, '1d');
+    console.log(verifyUrl);
+    const mailOptions = {
+        from: process.env.EMAIL,
+        to: user.email,
+        subject: 'Please verify your email @ WORKOUT TRACKER 😎',
+        html: verifyEmail(user, verifyUrl)
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+            console.log(error);
+        } else {
+            console.log('Email sent: ' + info.response);
+        }
+    });
+}
 
 
 const registerUser = asyncHandler(async (req, res) => {
@@ -36,30 +57,9 @@ const registerUser = asyncHandler(async (req, res) => {
     });
 
     if (user) {
-        const verifyUrl = "localhost:5000/user/" + user._id + "/verify/" + generateToken(user._id, '1d');
-        console.log(verifyUrl);
-        const mailOptions = {
-            from: process.env.EMAIL,
-            to: user.email,
-            subject: 'Please verify your email @ WORKOUT TRACKER 😎',
-            html: `<h1>Hi ${user.firstname}!</h1>
-            <h3>Thank you for registering at WORKOUT TRACKER.</h3>
-            <p>Please click the link below to verify your email address or copy and paste the link into your browser.</p>
-            <a href=${verifyUrl}>${verifyUrl}</a>
-            <p>Thank you ❤.</p>`
-        };
+        generateVerifyEmail(user);
 
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log(error);
-            } else {
-                console.log('Email sent: ' + info.response);
-            }
-        });
-
-        res.status(201).json({
-            message: verifyUrl,
-        });
+        res.status(201);
     } else {
         res.status(400).json({ message: 'Invalid user data 😢' });
         throw new Error('Invalid user data');
@@ -79,10 +79,11 @@ const loginUser = asyncHandler(async (req, res) => {
                 bio: user.bio,
                 email: user.email,
                 image: user.image,
-                token: generateToken(user._id, '1d'),
+                token: generateToken(user._id, '1w'),
                 verified: user.verified,
             });
         } else {
+            generateVerifyEmail(user);
             res.status(401).json({
                 message: 'Please verify your email! 📧'
             });
@@ -116,8 +117,6 @@ const updateUser = asyncHandler(async (req, res) => {
             bio: updatedUser.bio,
             email: updatedUser.email,
             image: updatedUser.image,
-            token: generateToken(updatedUser._id, '1d'),
-            verified: updatedUser.verified,
         });
     } else {
         res.status(404);
@@ -128,7 +127,7 @@ const updateUser = asyncHandler(async (req, res) => {
 const verifyUser = asyncHandler(async (req, res) => {
     const token = req.params.token;
     const id = req.params.id;
-    try{
+    try {
         const decoded = jwt.verify(token, process.env.SECRET);
         if (decoded.id === id) {
             const user = await User.findById(id);
@@ -156,7 +155,7 @@ const verifyUser = asyncHandler(async (req, res) => {
             throw new Error('Invalid token');
         }
     } catch (err) {
-        const verifyUrl = "localhost:5000/user/" + id + "/verify/" + generateToken(id, '1d');
+        generateVerifyEmail(user);
         res.status(401).json({
             message: 'Token has expired 😢'
         });

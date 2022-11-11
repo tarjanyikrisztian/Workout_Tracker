@@ -2,12 +2,22 @@ import React, { useEffect, useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux';
 import '../css/Profile.css'
 import { motion, AnimatePresence } from "framer-motion"
+import { logout } from '../redux/auth/authSlice';
 import { ProfileInfoEdit } from '../models/ProfileInfoEdit';
 import { Buffer } from 'buffer';
 
 export const Profile = () => {
+  const dispatch = useDispatch();
 
   const { user } = useSelector(state => state.auth);
+  const { exercises, isSuccess, isError, isLoading, message } = useSelector(state => state.exercises);
+
+  useEffect(() => {
+    if (message === "jwt expired") {
+      toast.error("Your session has expired. Please log in again.");
+      dispatch(logout());
+    }
+  }, [message]);
 
   let userIcon = "fa-solid fa-user-circle";
   if (user) {

@@ -8,6 +8,7 @@ import { selectedMuscleGroups, setSelectedMuscleGroups, muscleGroups } from '../
 import { useSelector, useDispatch } from 'react-redux'
 import { toast } from 'react-toastify';
 import { getExercises, reset } from '../redux/exercises/exerciseSlice';
+import { logout } from '../redux/auth/authSlice';
 import { CreateExercise } from '../models/CreateExercise';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Navbar } from '../models/Navbar';
@@ -21,6 +22,15 @@ export const Exercises = () => {
   const { exercises, isSuccess, isError, isLoading, message } = useSelector((state) => state.exercises);
 
   const [exercisesList, setExercisesList] = useState(exercises);
+
+  useEffect(() => {
+    console.log(message)
+    if (message === "jwt expired") {
+        toast.error("Your session has expired. Please log in again.");
+        dispatch(logout());
+    }
+}, [message]);
+
 
 
   useEffect(() => {

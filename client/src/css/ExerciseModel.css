@@ -150,6 +150,7 @@
     height: 20rem;
     padding-bottom: 1.5rem;
     position: relative;
+    opacity: 0.65;
 }
 
 .exerciseContainerSkeleton{
@@ -164,6 +165,7 @@
 }
 
 .exerciseNameSkeleton{
+    opacity: 0.8;
     display: block;
     background: linear-gradient(90deg, rgb(126, 134, 147, 0.75) 0%, rgba(79, 84, 92, 0.5) 50%, rgb(126, 134, 147, 0.75) 100%);
     background-size: 200% 100%;

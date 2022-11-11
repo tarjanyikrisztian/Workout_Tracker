@@ -59,14 +59,14 @@ const createExercise = asyncHandler(async (req, res) => {
 
 
 const updateExercise = asyncHandler(async (req, res) => {
-    const { exercisename, bodypart, description, ispublic, image } = req.body;
+    const { user, exercisename, bodypart, description, ispublic, image } = req.body;
     const exercise = await Exercise.findById(req.params.id);
 
     if (!exercise) {
         res.status(404).json({ message: 'Exercise not found' });
         throw new Error('Exercise not found');
     }
-    if (exercise.user.toString() !== req.user.toString()) {
+    if (exercise.user.toString() !== user.toString()) {
         res.status(401).json({ message: 'Not authorized' });
         throw new Error('Not authorized');
     }
@@ -74,6 +74,7 @@ const updateExercise = asyncHandler(async (req, res) => {
     exercise.bodypart = bodypart;
     exercise.description = description;
     exercise.ispublic = ispublic;
+    exercise.image = image;
     const updatedExercise = await exercise.save();
     if (updatedExercise) {
         res.json(updatedExercise);
@@ -89,12 +90,11 @@ const deleteExercise = asyncHandler(async (req, res) => {
         res.status(404).json({ message: 'Exercise not found' });
         throw new Error('Exercise not found');
     }
-    if (exercise.user.toString() !== req.user.toString()) {
-        res.status(401).json({ message: 'Not authorized' });
-        throw new Error('Not authorized');
-    }
     await exercise.remove();
-    res.json({ message: 'Exercise removed' });
+    res.json({
+        message: 'Exercise removed',
+        _id: exercise._id,
+    });
 });
 
 const likeExercise = asyncHandler(async (req, res) => {

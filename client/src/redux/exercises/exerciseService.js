@@ -29,6 +29,28 @@ const getExercises = async (token) => {
     }
 }
 
+const updateExercise = async (exerciseData, token) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }
+    const response = await axios.put(API_URL + exerciseData.id, exerciseData, config);
+    return response.data;
+}
+
+const deleteExercise = async (id, token) => {
+    const config = {
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    }
+    const response = await axios.delete(API_URL + id, config);
+    return response.data;
+}
+
 const likeExercise = async (exerciseId, id) => {
     const response = await axios.put(API_URL + id + '/like/' + exerciseId);
     return response.data;
@@ -43,6 +65,8 @@ const dislikeExercise = async (exerciseId, id) => {
 const exerciseService = {
     createExercise,
     getExercises,
+    updateExercise,
+    deleteExercise,
     likeExercise,
     dislikeExercise,
 };

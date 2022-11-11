@@ -110,6 +110,21 @@
   transition: all 0.25s ease-in-out;
   margin-left: 1rem;
 }
+.form-input-delete {
+  background-color: transparent;
+  font-size: 1rem;
+  margin-top: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+  transition: all 0.25s ease-in-out;
+  cursor: pointer;
+}
+
+.form-input-delete:hover {
+  color: red;
+  scale:1.1;
+  transition: all 0.25s ease-in-out;
+}
 
 .containerCreateExercise {
   position: absolute;
