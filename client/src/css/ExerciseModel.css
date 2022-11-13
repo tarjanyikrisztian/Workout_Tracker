@@ -97,6 +97,40 @@
     cursor: pointer;
 }
 
+.likeCountMyExc{
+    position: absolute;
+    right: 1rem;
+    top: 0.75rem;
+    max-height: 1.1rem;
+    min-width: 1.1rem;
+    padding: 0.2rem;
+    display: flex;
+    font-size: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 10rem;
+    color: white;
+    background-color: var(--teal-700);
+}
+
+.likeCount{
+    position: absolute;
+    right: 0.25rem;
+    bottom: 1.75rem;
+    color: white;
+    background-color: var(--teal-700);
+    max-height: 1.1rem;
+    min-width: 1.1rem;
+    padding: 0.2rem;
+    display: flex;
+    font-size: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    border-radius: 10rem;
+}
+
 .pen-edit{
     text-align: center;
     position: absolute;

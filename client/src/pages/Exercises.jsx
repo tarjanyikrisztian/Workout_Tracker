@@ -24,8 +24,7 @@ export const Exercises = () => {
   const [exercisesList, setExercisesList] = useState(exercises);
 
   useEffect(() => {
-    console.log(message)
-    if (message === "jwt expired") {
+        if (message === "jwt expired") {
         toast.error("Your session has expired. Please log in again.");
         dispatch(logout());
     }

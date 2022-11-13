@@ -25,13 +25,25 @@ function App() {
         <div className="App">
           {user && <Sidebar />}
           <Routes>
-            <Route path="/"  element={user ? <Profile /> : <Home/>} />
+            <Route path="/" element={user ? <Profile /> : <Home />} />
             <Route path="/exercises" element={<Exercises />} />
             <Route path="/workouts" element={<Workouts />} />
           </Routes>
         </div>
       </Router>
-      <ToastContainer />
+      <ToastContainer
+        position="bottom-left"
+        autoClose={5000}
+        limit={2}
+        hideProgressBar={false}
+        newestOnTop
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </>
   )
 }

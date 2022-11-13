@@ -56,18 +56,23 @@ export const ExerciseModel = ({ exercise, key_id }) => {
                         </div>
                         {(user && (user._id !== exercise.user)) &&
                             (exercise.likedBy.includes(user._id) ? (
+                                <>
                                 <i className="fa-solid fa-heart heart-like liked" onClick={() => handleLike()}></i>
+                                {exercise.likedBy.length > 0 && <span className="likeCount">{exercise.likedBy.length}</span>}
+                                </>
                             ) : (
-
+                                <>
                                 <i className="fa-solid fa-heart heart-like" onClick={() => handleLike()}></i>
+                                {exercise.likedBy.length > 0 && <span className="likeCount">{exercise.likedBy.length}</span>}
+                                </>
                             )
                             )}
                         {(user && (user._id === exercise.user))
-                            // make exercise editable where user can edit and delete exercise
-                            ? (
+                            && (
+                                <>
                                 <i className="fa-solid fa-pen pen-edit" onClick={() => (openUpdateExercise ? close() : open())}></i>
-                            ) : (
-                                <></>
+                                <span className="likeCountMyExc">{exercise.likedBy.length}</span>
+                                </>
                             )
                         }
                     </div>

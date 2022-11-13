@@ -10,11 +10,6 @@ const workoutSchema = new mongoose.Schema({
         type: String,
         trim: true,
     },
-    ispublic: {
-        type: Boolean,
-        required: true,
-        default: false
-    },
     user: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
@@ -25,11 +20,6 @@ const workoutSchema = new mongoose.Schema({
         ref: 'ExerciseInWorkout',
         default: []
     }],
-    likes: {
-        type: Number,
-        default: 0
-    },
-}, {
     timestamps: true
 });
 

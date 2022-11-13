@@ -2,8 +2,8 @@ const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const htmlTemplates = require('../utils/htmlTemplates');
 const nodemailer = require('nodemailer');
-const verifyEmail = require('../utils/verifyEmail');
 
 
 const transporter = nodemailer.createTransport({
@@ -15,13 +15,14 @@ const transporter = nodemailer.createTransport({
 });
 
 const generateVerifyEmail = (user) => {
+
     const verifyUrl = "localhost:5000/user/" + user._id + "/verify/" + generateToken(user._id, '1d');
     console.log(verifyUrl);
     const mailOptions = {
         from: process.env.EMAIL,
         to: user.email,
         subject: 'Please verify your email @ WORKOUT TRACKER 😎',
-        html: verifyEmail(user, verifyUrl)
+        html: htmlTemplates.verifyEmailHtml(user, verifyUrl)
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -175,6 +176,8 @@ const generateToken = (id, time) => {
         expiresIn: time
     });
 };
+
+
 
 module.exports = {
     registerUser,

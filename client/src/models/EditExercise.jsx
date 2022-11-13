@@ -14,6 +14,7 @@ import { Buffer } from 'buffer';
 
 export const EditExercise = ({ handleClose, exercise }) => {
     const { user } = useSelector((state) => state.auth);
+    const dispatch = useDispatch();
 
     const [newExerciseMuscleGroups, setNewExerciseMuscleGroups] = useState(exercise.bodypart);
     const [isPublic, setIsPublic] = useState(exercise.ispublic);

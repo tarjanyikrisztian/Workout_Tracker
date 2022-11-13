@@ -13,22 +13,18 @@ const exerciseInWorkoutSchema = new mongoose.Schema({
     },
     sets: {
         type: Number,
-        required: true,
         default: 0
     },
     reps: {
         type: Number,
-        required: true,
         default: 0
     },
     weight: {
         type: Number,
-        required: true,
         default: 0
     },
     intensity: {
         type: Number,
-        required: true,
         default: 0
     },
     notes: {

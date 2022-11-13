@@ -21,7 +21,6 @@ const getExercises = asyncHandler(async (req, res) => {
                 return JSON.stringify(obj) === _value;
             });
         });
-        // foreach exercise, change image to base64 
         res.status(200).json(uniqueExercises);
     } else {
         res.status(200).json(exercisesPublic);

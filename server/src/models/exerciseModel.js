@@ -25,10 +25,6 @@ const exerciseSchema = new mongoose.Schema({
         required: true,
         ref: 'User'
     },
-    likes: {
-        type: Number,
-        default: 0
-    },
     likedBy: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',

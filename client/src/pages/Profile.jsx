@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import '../css/Profile.css'
 import { motion, AnimatePresence } from "framer-motion"
 import { logout } from '../redux/auth/authSlice';
+import { getExercises, reset } from '../redux/exercises/exerciseSlice';
 import { ProfileInfoEdit } from '../models/ProfileInfoEdit';
 import { Buffer } from 'buffer';
 
@@ -11,6 +12,11 @@ export const Profile = () => {
 
   const { user } = useSelector(state => state.auth);
   const { exercises, isSuccess, isError, isLoading, message } = useSelector(state => state.exercises);
+  useEffect(() => {
+    if (exercises.length === 0) {
+      dispatch(getExercises());
+    }
+    }, [exercises.length]);
 
   useEffect(() => {
     if (message === "jwt expired") {
