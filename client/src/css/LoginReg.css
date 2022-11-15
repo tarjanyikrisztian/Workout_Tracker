@@ -21,6 +21,10 @@
   padding: 2rem;
 }
 
+.sign{
+  overflow-y:auto;
+}
+
 .titleAuth {
   font-size: 2rem;
   padding-bottom: 0.5rem;
@@ -94,7 +98,10 @@
 
 .fa-key,
 .fa-envelope,
-.fa-user {
+.fa-user,
+.fa-weight-scale,
+.fa-ruler-vertical,
+.fa-birthday-cake {
   color: black;
   padding-right: 0.5rem;
 }

@@ -70,15 +70,11 @@ export const ProfileInfoEdit = ({ handleClose }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const image = file;
-        if ((age < 14 || age > 100) && age) {
+        if (age < 14 || age > 100) {
                 toast.error("Age must be between 14 and 100.");
                 return;
         }
-        if ((weight < 30 || weight > 400) && weight) {
-                toast.error("Weight must be between 30 and 400 kg.");
-                return;
-        }
-        if ((height < 80 || height > 300) && height) {
+        if (height < 80 || height > 300) {
                 toast.error("Height must be between 80 and 300 cm.");
                 return;
         }
@@ -96,7 +92,6 @@ export const ProfileInfoEdit = ({ handleClose }) => {
             bio,
             image,
             age,
-            weight,
             height,
         };
         dispatch(update(updatedUser));
@@ -170,17 +165,12 @@ export const ProfileInfoEdit = ({ handleClose }) => {
                     </span>
                     <span className="input-item">
                         <label htmlFor="age">Age</label>
-                        <input type="text" className="form-input" value={age === 0 ? null : age} placeholder="Age" name="age" onChange={onChange} />
+                        <input type="number" min="14" max="100" className="form-input" value={age} placeholder="Age" name="age" onChange={onChange} />
                     </span>
                     <span className="input-item">
                         <label htmlFor="height">Height</label>
-                        <input type="text" className="form-input" value={height === 0 ? null : height} placeholder="Height" name="height" onChange={onChange} />
+                        <input type="number" min="80" max="300" className="form-input" value={height} placeholder="Height" name="height" onChange={onChange} />
                         <span>cm</span>
-                    </span>
-                    <span className="input-item">
-                        <label htmlFor="weight">Weight</label>
-                        <input type="text" className="form-input" value={weight === 0 ? null : weight} placeholder="Weight" name="weight" onChange={onChange} />
-                        <span>kg</span>
                     </span>
                     <button className="btn" type="submit">
                         Save

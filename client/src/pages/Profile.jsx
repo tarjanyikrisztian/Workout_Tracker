@@ -6,12 +6,14 @@ import { logout } from '../redux/auth/authSlice';
 import { getExercises, reset } from '../redux/exercises/exerciseSlice';
 import { ProfileInfoEdit } from '../models/ProfileInfoEdit';
 import { Buffer } from 'buffer';
+import { WeightGraph } from '../models/WeightGraph';
 
 export const Profile = () => {
   const dispatch = useDispatch();
 
   const { user } = useSelector(state => state.auth);
   const { exercises, isSuccess, isError, isLoading, message } = useSelector(state => state.exercises);
+
   useEffect(() => {
     if (exercises.length === 0) {
       dispatch(getExercises());
@@ -62,15 +64,15 @@ export const Profile = () => {
               <tbody>
                 <tr>
                   <td className="profileInfoTableElement">Age:</td>
-                  <td className="profileInfoTableElement">{(user.age === 0)?"unknown":user.age}</td>
+                  <td className="profileInfoTableElement">{user.age}</td>
                 </tr>
                 <tr>
                   <td className="profileInfoTableElement">Height:</td>
-                  <td className="profileInfoTableElement">{(user.height === 0)?"unknown":(user.height+"cm")}</td>
+                  <td className="profileInfoTableElement">{(user.height+"cm")}</td>
                 </tr>
                 <tr>
                   <td className="profileInfoTableElement">Weight:</td>
-                  <td className="profileInfoTableElement">{(user.weight === 0)?"unknown":(user.weight+"kg")}</td>
+                  <td className="profileInfoTableElement">{(user.weight[(user.weight.length-1)]+"kg")}</td>
                 </tr>
                 </tbody>
             </table>
@@ -78,7 +80,7 @@ export const Profile = () => {
             <i className="fa-solid fa-pen pen-profile" onClick={() => (edit ? close() : open())}></i>
           </div>
           <div className="div2 profileCards">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eos tempora labore, debitis laboriosam, nulla nemo, ut maiores odio quibusdam alias ullam iure officiis cumque doloribus expedita et porro quasi obcaecati?
+            <WeightGraph />
           </div>
         </div>
       </div>

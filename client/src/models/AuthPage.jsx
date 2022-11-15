@@ -45,9 +45,12 @@ export const AuthPage = ({ handleClose }) => {
         email: "",
         password: "",
         password2: "",
+        weight: "",
+        height: "",
+        age: "",
     });
 
-    const { firstname, lastname, email, password, password2 } = formDataReg;
+    const { firstname, lastname, email, password, password2, weight, height, age } = formDataReg;
 
 
     const navigate = useNavigate();
@@ -179,6 +182,9 @@ export const AuthPage = ({ handleClose }) => {
                 lastname,
                 email,
                 password,
+                weight,
+                height,
+                age,
             }
 
             dispatch(register(userDataReg))
@@ -189,6 +195,10 @@ export const AuthPage = ({ handleClose }) => {
             email: "",
             password: "",
             password2: "",
+            age: "",
+            weight: "",
+            height: "",
+
         })
 
     }
@@ -226,7 +236,7 @@ export const AuthPage = ({ handleClose }) => {
 
     function onSignIn(googleUser) {
         var profile = googleUser.getBasicProfile();
-        console.log('ID: ' + profile.getId()); 
+        console.log('ID: ' + profile.getId());
         console.log('Name: ' + profile.getName());
         console.log('Image URL: ' + profile.getImageUrl());
         console.log('Email: ' + profile.getEmail());
@@ -262,7 +272,7 @@ export const AuthPage = ({ handleClose }) => {
         },
 
         sign: {
-            height: "43rem",
+            height: "31rem",
             transition: {
                 duration: 0.25,
             },
@@ -322,6 +332,22 @@ export const AuthPage = ({ handleClose }) => {
                                 <input className="form-input password" type="password" placeholder="Confirm Password" id="password2" name="password2" value={password2} onChange={onChangeReg} required />
                                 <i className="fa-solid fa-eye" type="button" id="eye" onClick={() => passwordShowHide()}></i>
                             </span>
+                            <span className="input-item">
+                                <i class="fa-solid fa-weight-scale"></i>
+                                <input className="form-input" min="30" max="400" id="weight" type="number" placeholder="Weight" name='weight' value={weight} onChange={onChangeReg} required />
+                                kg
+                            </span>
+                            <span className="input-item">
+                                <i class="fa-solid fa-ruler-vertical"></i>
+                                <input className="form-input" min="80" max="300" id="height" type="number" placeholder="Height" name='height' value={height} onChange={onChangeReg} required />
+                                cm
+                            </span>
+                            <span className="input-item">
+                                <i class="fa-solid fa-birthday-cake"></i>
+                                <input className="form-input" min="14" max="100" id="age" type="number" placeholder="Age" name='age' value={age} onChange={onChangeReg} required />
+                            </span>
+
+
                             <button className="btn" type="submit">Sign up</button>
                             <div className="or">
                                 or

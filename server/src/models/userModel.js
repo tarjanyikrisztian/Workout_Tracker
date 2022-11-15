@@ -37,17 +37,21 @@ const userSchema = new mongoose.Schema({
         type: Buffer,
         default: null,
     },
-    weight: {
+    weight: [{
         type: Number,
-        default: 0,
-    },
+        required: true,
+    }],
+    weightDate: [{
+        type: Date,
+        required: true,
+    }],
     height: {
         type: Number,
-        default: 0,
+        required: true,
     },
     age: {
         type: Number,
-        default: 0,
+        required: true,
     },
 }, {
     timestamps: true

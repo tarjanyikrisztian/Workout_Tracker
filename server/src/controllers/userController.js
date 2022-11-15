@@ -36,7 +36,7 @@ const generateVerifyEmail = (user) => {
 
 
 const registerUser = asyncHandler(async (req, res) => {
-    const { firstname, lastname, email, password } = req.body;
+    const { firstname, lastname, email, password, age, weight, height } = req.body;
     if (!firstname || !lastname || !email || !password) {
         res.status(400).json({ message: 'Please fill in all fields 🤔' });
         throw new Error('Please fill all fields');
@@ -55,6 +55,10 @@ const registerUser = asyncHandler(async (req, res) => {
         username: username.toLowerCase(),
         email,
         password: hashedPassword,
+        age,
+        weight,
+        height,
+        weightDate: Date.now(),
     });
 
     if (user) {
@@ -80,11 +84,12 @@ const loginUser = asyncHandler(async (req, res) => {
                 bio: user.bio,
                 email: user.email,
                 image: user.image,
-                token: generateToken(user._id, '1w'),
-                verified: user.verified,
                 age: user.age,
                 weight: user.weight,
+                weightDate: user.weightDate,
                 height: user.height,
+                token: generateToken(user._id, '1w'),
+                verified: user.verified,
             });
         } else {
             generateVerifyEmail(user);
@@ -108,12 +113,10 @@ const updateUser = asyncHandler(async (req, res) => {
         user.lastname = req.body.lastname || user.lastname;
         (req.body.bio === "") ? user.bio = "" : user.bio = req.body.bio || user.bio;
         user.image = req.body.image || user.image;
-        (req.body.age === "") ? user.age = 0 : user.age = req.body.age || user.age;
         user.age = req.body.age || user.age;
-        (req.body.weight === "") ? user.weight = 0 : user.weight = req.body.weight || user.weight;
         user.weight = req.body.weight || user.weight;
-        (req.body.height === "") ? user.height = 0 : user.height = req.body.height || user.height;
         user.height = req.body.height || user.height;
+        user.weightDate = Date.now();
         /*if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(req.body.password, salt);
@@ -130,6 +133,7 @@ const updateUser = asyncHandler(async (req, res) => {
             age: updatedUser.age,
             weight: updatedUser.weight,
             height: updatedUser.height,
+            weightDate: updatedUser.weightDate,
             token: generateToken(updatedUser._id, '1w'),
         });
     } else {
@@ -178,8 +182,25 @@ const verifyUser = asyncHandler(async (req, res) => {
     }
 });
 
-const getMe = asyncHandler(async (req, res) => {
-    res.status(200).json(req.user);
+const getUser = asyncHandler(async (req, res) => {
+    const user = await User.findById(req.user._id);
+    if (user) {
+        res.json({
+            _id: user._id,
+            firstname: user.firstname,
+            lastname: user.lastname,
+            bio: user.bio,
+            email: user.email,
+            image: user.image,
+            age: user.age,
+            weight: user.weight,
+            height: user.height,
+            createdAt: user.createdAt,
+        });
+    } else {
+        res.status(404);
+        throw new Error('User not found');
+    }
 });
 
 
@@ -195,7 +216,7 @@ const generateToken = (id, time) => {
 module.exports = {
     registerUser,
     loginUser,
-    getMe,
+    getUser,
     updateUser,
     verifyUser,
 };

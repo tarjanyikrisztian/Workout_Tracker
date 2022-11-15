@@ -8,16 +8,35 @@ import { Profile } from './pages/Profile'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.min.css';
 import { useSelector } from 'react-redux';
-
-
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
 
 
+
+
+
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend
+);
 
 function App() {
   const { user } = useSelector(state => state.auth);
-
-
 
   return (
     <>
