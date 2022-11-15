@@ -21,7 +21,7 @@ const generateVerifyEmail = (user) => {
     const mailOptions = {
         from: process.env.EMAIL,
         to: user.email,
-        subject: 'Please verify your email @ WORKOUT TRACKER 😎',
+        subject: 'Please verify your email @ WORKOUTTRACKER 😎',
         html: htmlTemplates.verifyEmailHtml(user, verifyUrl)
     };
 
@@ -82,6 +82,9 @@ const loginUser = asyncHandler(async (req, res) => {
                 image: user.image,
                 token: generateToken(user._id, '1w'),
                 verified: user.verified,
+                age: user.age,
+                weight: user.weight,
+                height: user.height,
             });
         } else {
             generateVerifyEmail(user);
@@ -103,8 +106,14 @@ const updateUser = asyncHandler(async (req, res) => {
     if (user) {
         user.firstname = req.body.firstname || user.firstname;
         user.lastname = req.body.lastname || user.lastname;
-        user.bio = req.body.bio || user.bio;
+        (req.body.bio === "") ? user.bio = "" : user.bio = req.body.bio || user.bio;
         user.image = req.body.image || user.image;
+        (req.body.age === "") ? user.age = 0 : user.age = req.body.age || user.age;
+        user.age = req.body.age || user.age;
+        (req.body.weight === "") ? user.weight = 0 : user.weight = req.body.weight || user.weight;
+        user.weight = req.body.weight || user.weight;
+        (req.body.height === "") ? user.height = 0 : user.height = req.body.height || user.height;
+        user.height = req.body.height || user.height;
         /*if (req.body.password) {
             const salt = await bcrypt.genSalt(10);
             user.password = await bcrypt.hash(req.body.password, salt);
@@ -118,6 +127,10 @@ const updateUser = asyncHandler(async (req, res) => {
             bio: updatedUser.bio,
             email: updatedUser.email,
             image: updatedUser.image,
+            age: updatedUser.age,
+            weight: updatedUser.weight,
+            height: updatedUser.height,
+            token: generateToken(updatedUser._id, '1w'),
         });
     } else {
         res.status(404);

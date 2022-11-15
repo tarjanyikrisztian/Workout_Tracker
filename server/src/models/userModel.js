@@ -37,6 +37,18 @@ const userSchema = new mongoose.Schema({
         type: Buffer,
         default: null,
     },
+    weight: {
+        type: Number,
+        default: 0,
+    },
+    height: {
+        type: Number,
+        default: 0,
+    },
+    age: {
+        type: Number,
+        default: 0,
+    },
 }, {
     timestamps: true
 }); 

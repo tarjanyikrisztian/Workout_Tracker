@@ -7,11 +7,12 @@ import { Backdrop } from './Backdrop';
 import { update } from '../redux/auth/authSlice';
 import Resizer from "react-image-file-resizer";
 import { Buffer } from 'buffer';
+import { toast } from 'react-toastify';
 
 export const ProfileInfoEdit = ({ handleClose }) => {
-    const { user } = useSelector(state => state.auth);
-
     const dispatch = useDispatch();
+
+    const { user } = useSelector(state => state.auth);
 
     let userIcon = "fa-solid fa-user-circle";
     if (user) {
@@ -38,13 +39,13 @@ export const ProfileInfoEdit = ({ handleClose }) => {
         });
 
 
-        const handleFile = (evt) => {
-            let f = evt.target.files[0];
-            setPreview(URL.createObjectURL(f));
-            resizeFile(f).then((resizedImageUri) => {
-                setFile(resizedImageUri.split(",")[1]);
-            });
-        }
+    const handleFile = (evt) => {
+        let f = evt.target.files[0];
+        setPreview(URL.createObjectURL(f));
+        resizeFile(f).then((resizedImageUri) => {
+            setFile(resizedImageUri.split(",")[1]);
+        });
+    }
 
     const [formData, setFormData] = useState({
         firstname: user.firstname,
@@ -52,9 +53,12 @@ export const ProfileInfoEdit = ({ handleClose }) => {
         email: user.email,
         bio: user.bio,
         image: user.image,
+        age: user.age,
+        weight: user.weight,
+        height: user.height,
     });
 
-    const { firstname, lastname, bio, } = formData;
+    const { firstname, lastname, bio, age, weight, height } = formData;
 
     const onChange = (e) => {
         setFormData((prevState) => ({
@@ -66,11 +70,34 @@ export const ProfileInfoEdit = ({ handleClose }) => {
     const onSubmit = (e) => {
         e.preventDefault();
         const image = file;
+        if ((age < 14 || age > 100) && age) {
+                toast.error("Age must be between 14 and 100.");
+                return;
+        }
+        if ((weight < 30 || weight > 400) && weight) {
+                toast.error("Weight must be between 30 and 400 kg.");
+                return;
+        }
+        if ((height < 80 || height > 300) && height) {
+                toast.error("Height must be between 80 and 300 cm.");
+                return;
+        }
+        if (bio.length > 200) {
+            toast.error("Bio must be less than 200 characters.");
+            return;
+        }
+        if(firstname.length === 0 || lastname.length === 0) {
+            toast.error("First and last name must be filled.");
+            return;
+        }
         const updatedUser = {
             firstname,
             lastname,
             bio,
             image,
+            age,
+            weight,
+            height,
         };
         dispatch(update(updatedUser));
         handleClose();
@@ -78,11 +105,11 @@ export const ProfileInfoEdit = ({ handleClose }) => {
 
     useEffect(() => {
         if (user.image) {
-          const profileImage = document.getElementById(`profImageEdit`);
-          let image = Buffer.from(user.image, 'base64').toString('ascii');
-          profileImage.style.backgroundImage = `url('data:image/JPEG;base64,${image}')`;
+            const profileImage = document.getElementById(`profImageEdit`);
+            let image = Buffer.from(user.image, 'base64').toString('ascii');
+            profileImage.style.backgroundImage = `url('data:image/JPEG;base64,${image}')`;
         }
-      }, []);
+    }, []);
 
 
     const slideIn = {
@@ -119,10 +146,10 @@ export const ProfileInfoEdit = ({ handleClose }) => {
                     <div className="profileImage profileImageEdit">
                         <label htmlFor="file">
                             <input type="file" id="file" name="file" onChange={handleFile} accept="image/png, image/jpeg" hidden />
-                            {preview ? <img src={preview} alt="preview" /> 
-                            : (user.image ?
-                                <div id="profImageEdit" className="profileImage"></div>
-                                : <i className={userIcon}></i>
+                            {preview ? <img src={preview} alt="preview" />
+                                : (user.image ?
+                                    <div id="profImageEdit" className="profileImage"></div>
+                                    : <i className={userIcon}></i>
                                 )}
                         </label>
                     </div>
@@ -130,13 +157,30 @@ export const ProfileInfoEdit = ({ handleClose }) => {
                 </div>
                 <form onSubmit={onSubmit}>
                     <span className="input-item">
+                        <label htmlFor="firstname">Firstname</label>
                         <input type="text" className="form-input" value={firstname} placeholder="Firstname" name="firstname" onChange={onChange} />
                     </span>
                     <span className="input-item">
+                        <label htmlFor="lastname">Lastname</label>
                         <input type="text" className="form-input" value={lastname} placeholder="Lastname" name="lastname" onChange={onChange} />
                     </span>
                     <span className="input-item">
+                        <label htmlFor="bio">Bio</label>
                         <input type="textarea" rows="4" className="form-input" value={bio} placeholder="Bio" name="bio" onChange={onChange} />
+                    </span>
+                    <span className="input-item">
+                        <label htmlFor="age">Age</label>
+                        <input type="text" className="form-input" value={age === 0 ? null : age} placeholder="Age" name="age" onChange={onChange} />
+                    </span>
+                    <span className="input-item">
+                        <label htmlFor="height">Height</label>
+                        <input type="text" className="form-input" value={height === 0 ? null : height} placeholder="Height" name="height" onChange={onChange} />
+                        <span>cm</span>
+                    </span>
+                    <span className="input-item">
+                        <label htmlFor="weight">Weight</label>
+                        <input type="text" className="form-input" value={weight === 0 ? null : weight} placeholder="Weight" name="weight" onChange={onChange} />
+                        <span>kg</span>
                     </span>
                     <button className="btn" type="submit">
                         Save

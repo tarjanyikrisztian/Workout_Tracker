@@ -58,6 +58,23 @@ export const Profile = () => {
             <span className="profileBio">
               {(user.bio.length > 0) ? user.bio : "No bio yet."}
             </span>
+            <table className="profileInfoTable">
+              <tbody>
+                <tr>
+                  <td className="profileInfoTableElement">Age:</td>
+                  <td className="profileInfoTableElement">{(user.age === 0)?"unknown":user.age}</td>
+                </tr>
+                <tr>
+                  <td className="profileInfoTableElement">Height:</td>
+                  <td className="profileInfoTableElement">{(user.height === 0)?"unknown":(user.height+"cm")}</td>
+                </tr>
+                <tr>
+                  <td className="profileInfoTableElement">Weight:</td>
+                  <td className="profileInfoTableElement">{(user.weight === 0)?"unknown":(user.weight+"kg")}</td>
+                </tr>
+                </tbody>
+            </table>
+
             <i className="fa-solid fa-pen pen-profile" onClick={() => (edit ? close() : open())}></i>
           </div>
           <div className="div2 profileCards">
