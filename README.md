@@ -161,7 +161,7 @@ Creates an exercise.
 
 Edit exercise.
 
-#### Update exercise
+#### Delete exercise
 
 ```http
   DELETE /exercise/:id (protect middleware)
