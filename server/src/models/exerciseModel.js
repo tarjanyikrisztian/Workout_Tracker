@@ -17,7 +17,6 @@ const exerciseSchema = new mongoose.Schema({
     },
     ispublic: {
         type: Boolean,
-        required: true,
         default: false
     },
     user: {
